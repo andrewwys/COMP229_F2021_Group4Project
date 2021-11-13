@@ -12,43 +12,51 @@
 
             <form method="POST" class="form">
                 <div class="form-group">
-                    <label for="nameTextField">Contact Name</label>
+                    <label for="titleTextField">Title</label>
                     <input type="text" class="form-control"
-                    id="nameTextField" placeholder="Enter the Contact Name"
+                    id="titleTextField" placeholder="Enter the Survey Title"
+                    name="title" required
+                    value="<%= survey.title %>">
+                </div>
+    
+                <div class="form-group">
+                    <label for="nameTextField">Name</label>
+                    <input type="text" class="form-control"
+                    id="nameTextField" placeholder="Enter the Survey Name"
                     name="name" required
-                    value="<%= contact.contactName %>">
+                    value="<%= survey.name %>">
                 </div>
     
                 <div class="form-group">
-                    <label for="numberTextField">Contact Number</label>
+                    <label for="descriptionTextField">Description</label>
                     <input type="text" class="form-control"
-                    id="numberTextField" placeholder="Enter the Contact Number"
-                    name="contactNumber" required
-                    value="<%= contact.contactNumber %>">
-                </div>
-    
-                <div class="form-group">
-                    <label for="emailTextField">Contact Email</label>
-                    <input type="text" class="form-control"
-                    id="emailTextField" placeholder="Enter the Contact Email"
-                    name="contactEmail" required
-                    value="<%= contact.contactEmail %>"/>
+                    id="descriptionTextField" placeholder="Enter the Survey Description"
+                    name="description" required
+                    value="<%= survey.description %>"/>
                 </div>
                 
                 <div class="form-group">
-                    <label for="businessNameTextField">Business Name</label>
-                    <input type="text" class="form-control"
-                    id="businessNameTextField" placeholder="Enter the Business Name"
-                    name="businessName" required
-                    value="<%= contact.businessName %>"/>
+                    <label for="createdDateTextField">Created Date</label>
+                    <input type="text" class="form-control"  disabled="true"
+                    id="createdDateTextField"
+                    name="createdDate"
+                    value="<%= survey.createdDate %>"/>
                 </div>
     
                 <div class="form-group">
-                    <label for="businessTypeTextField">Buisness Type</label>
-                    <input type="text" class="form-control"
-                    id="businessTypeTextField" placeholder="Enter the type of Business"
-                    name="businessType" required
-                    value="<%= contact.businessType %>"/>
+                    <label for="editedDateTextField">Edited Date</label>
+                    <input type="text" class="form-control"  disabled="true"
+                    id="editedDateTextField"
+                    name="editedDate"
+                    value="<%= survey.editedDate %>"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="timesViewedTextField">Times Viewed</label>
+                    <input type="text" class="form-control" disabled="true"
+                    id="timesViewedTextField"
+                    name="timesViewed"
+                    value="<%= survey.timesViewed %>"/>
                 </div>
                 
                 <button class="btn btn-primary">
@@ -57,7 +65,7 @@
                     <a href="/contact-list" class="btn btn-warning">
                         <i class="fas fa-undo"></i>Cancel</a>
 
-                    <a href="/contact-list/delete/<%= contact._id %>" class="btn btn-danger btn-sm">
+                    <a href="/contact-list/delete/<%= survey._id %>" class="btn btn-danger btn-sm">
                         <i class="fas fa-trash-alt"></i>Delete</a>
             </form>
         </div>

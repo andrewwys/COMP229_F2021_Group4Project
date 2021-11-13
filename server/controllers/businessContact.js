@@ -5,10 +5,10 @@ let mongoose = require('mongoose');
 let jwt = require('jsonwebtoken');
 
 // create a reference to the model
-let Contact = require('../models/businessContact');
+let Survey = require('../models/survey');
 
 module.exports.displayContactList = (req, res, next) => {
-    Contact.find((err, contactList) => {
+    Survey.find((err, surveyList) => {
         if(err)
         {
             return console.error(err);
@@ -17,28 +17,30 @@ module.exports.displayContactList = (req, res, next) => {
         {
             //console.log(BookList);
 
-            res.render('businessContact/list', {title: 'Contacts',
-             ContactList: contactList,
+            res.render('businessContact/list', {title: 'Group 4 Survey Site',
+             SurveyList: surveyList,
              displayName: req.user ? req.user.displayName : ''});      
         }
-    }).sort({"contactName":1});
+    }).sort({"name":1});
 }
 
 module.exports.displayAddPage = (req, res, next) => {
-    res.render('businessContact/add', {title: 'Add Contact'})          
+    res.render('businessContact/add', {title: 'Add Survey'})          
 }
 
 module.exports.processAddPage = (req, res, next) => {
-    let newContact = Contact({
-        "contactName": req.body.name,
-        "contactNumber": req.body.contactNumber,
-        "contactEmail": req.body.contactEmail,
-        "businessName": req.body.businessName,
-        "businessType": req.body.businessType,
-        "createdDate": req.body.createdDate
+    let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+
+    let newSurvey = Survey({
+        "title": req.body.title,
+        "name": req.body.name,
+        "description": req.body.description,
+        "createdDate": utcDate,
+        "editedDate": utcDate,
+        "timesViewed": 1
     });
 
-    Contact.create(newContact, (err, Contact) =>{
+    Survey.create(newSurvey, (err, Survey) =>{
         if(err)
         {
             console.log(err);
@@ -56,7 +58,7 @@ module.exports.processAddPage = (req, res, next) => {
 module.exports.displayEditPage = (req, res, next) => {
     let id = req.params.id;
 
-    Contact.findById(id, (err, contactToEdit) => {
+    Survey.findById(id, (err, surveyToEdit) => {
         if(err)
         {
             console.log(err);
@@ -65,7 +67,7 @@ module.exports.displayEditPage = (req, res, next) => {
         else
         {
             //show the edit view
-            res.render('businessContact/edit', {title: 'Edit Contact', contact: contactToEdit,
+            res.render('businessContact/edit', {title: 'Edit Survey', survey: surveyToEdit,
             displayName: req.user ? req.user.displayName : ''});      
         }
     });
@@ -73,18 +75,20 @@ module.exports.displayEditPage = (req, res, next) => {
 
 module.exports.processEditPage = (req, res, next) => {
     let id = req.params.id
+    let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/')
 
-    let updatedContact = Contact({
+    let updatedSurvey = Survey({
         "_id": id,
-        "contactName": req.body.name,
-        "contactNumber": req.body.contactNumber,
-        "contactEmail": req.body.contactEmail,
-        "businessName": req.body.businessName,
-        "businessType": req.body.businessType,
-        "createdDate": req.body.createdDate
+        "title": req.body.title,
+        "name": req.body.name,
+        "description": req.body.description,
+        "createdDate": req.body.createdDate,
+        "editedDate": utcDate,
+        "timesViewed": req.body.timesViewed
     });
+    console.log(updatedSurvey.timesViewed);
 
-    Contact.updateOne({_id: id}, updatedContact, (err) => {
+    Survey.updateOne({_id: id}, updatedSurvey, (err) => {
         if(err)
         {
             console.log(err);
@@ -101,7 +105,7 @@ module.exports.processEditPage = (req, res, next) => {
 module.exports.performDelete = (req, res, next) => {
     let id = req.params.id;
 
-    Contact.remove({_id: id}, (err) => {
+    Survey.remove({_id: id}, (err) => {
         if(err)
         {
             console.log(err);
