@@ -2,12 +2,12 @@ let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 
-let jwt = require('jsonwebtoken');
+// let jwt = require('jsonwebtoken');
 
 // create a reference to the model
 let Survey = require('../models/survey');
 
-module.exports.displayContactList = (req, res, next) => {
+module.exports.displaySurveyList = (req, res, next) => {
     Survey.find((err, surveyList) => {
         if(err)
         {
@@ -17,15 +17,15 @@ module.exports.displayContactList = (req, res, next) => {
         {
             //console.log(BookList);
 
-            res.render('businessContact/list', {title: 'Group 4 Survey Site',
+            res.render('survey/list', {title: 'Group 4 Survey Site',
              SurveyList: surveyList,
              displayName: req.user ? req.user.displayName : ''});      
         }
-    }).sort({"name":1});
+    }).sort({"name": 1});
 }
 
 module.exports.displayAddPage = (req, res, next) => {
-    res.render('businessContact/add', {title: 'Add Survey'})          
+    res.render('survey/add', {title: 'Add Survey'})          
 }
 
 module.exports.processAddPage = (req, res, next) => {
@@ -49,10 +49,9 @@ module.exports.processAddPage = (req, res, next) => {
         else
         {
             // refresh the contact list
-            res.redirect('/contact-list');
+            res.redirect('/');
         }
     });
-
 }
 
 module.exports.displayEditPage = (req, res, next) => {
@@ -67,7 +66,7 @@ module.exports.displayEditPage = (req, res, next) => {
         else
         {
             //show the edit view
-            res.render('businessContact/edit', {title: 'Edit Survey', survey: surveyToEdit,
+            res.render('survey/edit', {title: 'Edit Survey', survey: surveyToEdit,
             displayName: req.user ? req.user.displayName : ''});      
         }
     });
@@ -97,7 +96,7 @@ module.exports.processEditPage = (req, res, next) => {
         else
         {
             // refresh the contact list
-            res.redirect('/contact-list');
+            res.redirect('/');
         }
     });
 }
@@ -114,7 +113,7 @@ module.exports.performDelete = (req, res, next) => {
         else
         {
              // refresh the contact list
-             res.redirect('/contact-list');
+             res.redirect('/');
         }
     });
 }

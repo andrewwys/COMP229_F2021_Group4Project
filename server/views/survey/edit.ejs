@@ -1,7 +1,5 @@
 <%- include ../partials/header.ejs %>
-
-<%- include ../partials/main_nav.ejs %>
-  
+<%- include ../partials/main_nav.ejs %>  
 
 <!--C Content for the Edit Page-->
 
@@ -59,22 +57,21 @@
                     value="<%= survey.timesViewed %>"/>
                 </div>
                 
-                <button class="btn btn-primary">
-                    <i class="fas fa-edit"></i>Submit</button>
+                <div class="mt-2">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Submit
+                    </button>
+        
+                    <a href="/" class="btn btn-warning">
+                        <i class="fas fa-undo"></i> Cancel</a>
     
-                    <a href="/contact-list" class="btn btn-warning">
-                        <i class="fas fa-undo"></i>Cancel</a>
-
-                    <a href="/contact-list/delete/<%= survey._id %>" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt"></i>Delete</a>
+                    <a href="/delete/<%= survey._id %>" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i> Delete</a>
+                </div>
             </form>
         </div>
-
     </div>
 </div>
 
-  
-<%- include ../partials/bottom_nav.ejs %>  
-
+<%- include ../partials/bottom_nav.ejs %>
 <%- include ../partials/footer.ejs %>
-  

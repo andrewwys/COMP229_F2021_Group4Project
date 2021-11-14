@@ -33,8 +33,8 @@ mongoDB.once('open', ()=>{
 
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
-let booksRouter = require('../routes/book');
-let contactRouter = require('../routes/businessContact');
+// let booksRouter = require('../routes/book');
+let surveyRouter = require('../routes/survey');
 
 let app = express();
 
@@ -95,8 +95,8 @@ passport.use(strategy);
 // routing
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/book-list', booksRouter);
-app.use('/contact-list', contactRouter);
+app.use('/survey', surveyRouter);
+// app.use('/contact-list', contactRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
