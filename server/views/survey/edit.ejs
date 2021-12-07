@@ -2,6 +2,90 @@
 <%- include ../partials/main_nav.ejs %>  
 
 <!--C Content for the Edit Page-->
+<script type="text/javascript">
+    var counter = 1
+
+    function addYesNoQuestion() {
+        let questionsDiv = document.getElementById("questions");
+
+        //Create Input for Question
+        let input = document.createElement("input");
+        input.id = "question" + counter
+        input.type = "text";
+        input.className = "form-control";
+
+        //Create Label
+        let label = document.createElement("Label");
+        label.setAttribute("for", "Question " + counter);
+        label.innerHTML = "Question" + counter + "\n";
+
+        let labelYes = document.createElement("Label");
+        labelYes.innerHTML = "Yes &nbsp;";
+        let labelNo = document.createElement("Label");
+        labelNo.innerHTML = "&nbsp; &nbsp; No &nbsp;";
+
+        //Create Radio Buttons
+        let radioInputYes = document.createElement('input');
+        let radioInputNo = document.createElement('input');
+        radioInputYes.setAttribute('type', 'radio');
+        radioInputYes.setAttribute('name', 'userQuestion');
+        radioInputNo.setAttribute('type', 'radio');
+        radioInputNo.setAttribute('name', 'userQuestion');
+
+        //Create Line Break
+        let br1 = document.createElement("br");
+        let br2 = document.createElement("br");
+
+        //Append to Div
+        questionsDiv.appendChild(label);
+        questionsDiv.appendChild(br1);
+        questionsDiv.appendChild(input);
+        questionsDiv.appendChild(labelYes);
+        questionsDiv.appendChild(radioInputYes);
+        questionsDiv.appendChild(labelNo);
+        questionsDiv.appendChild(radioInputNo);
+        questionsDiv.appendChild(br1);
+        questionsDiv.appendChild(br2);
+        counter++;
+    }
+
+    function addShortQuestion() {
+        let questionsDiv = document.getElementById("questions");
+        //Create Label
+        let labelQuestion = document.createElement("Label");
+        labelQuestion.setAttribute("for", "Question " + counter);
+        labelQuestion.innerHTML = "Question " + counter;
+
+        let labelAnswer = document.createElement("Label");
+        labelAnswer.setAttribute("for", "Question " + counter);
+        labelAnswer.innerHTML = "Answer for question " + counter;
+
+        let br1 = document.createElement("br");
+
+
+        //Create Input
+        let inputQuestion = document.createElement("input");
+        inputQuestion.id = "question" + counter
+        inputQuestion.type = "text";
+        inputQuestion.className = "form-control";
+
+        let inputAnswer = document.createElement("input");
+        inputAnswer.id = "answer" + counter
+        inputAnswer.type = "text";
+        inputAnswer.className = "form-control";
+
+
+        //Append to Div
+        questionsDiv.appendChild(labelQuestion);
+        questionsDiv.appendChild(br1);
+        questionsDiv.appendChild(inputQuestion);
+        questionsDiv.appendChild(labelAnswer);
+        questionsDiv.appendChild(inputAnswer);
+        questionsDiv.appendChild(br1);
+        counter++;
+    }
+
+ </script>
 
 <div class="container">
     <div class="row">
@@ -32,32 +116,45 @@
                     name="description" required
                     value="<%= survey.description %>"/>
                 </div>
-                
-                <div class="form-group">
-                    <label for="createdDateTextField">Created Date</label>
-                    <input type="text" class="form-control"  disabled="true"
-                    id="createdDateTextField"
-                    name="createdDate"
-                    value="<%= survey.createdDate %>"/>
+                <div class="form-group" id="questions">
+
                 </div>
-    
-                <div class="form-group">
-                    <label for="editedDateTextField">Edited Date</label>
-                    <input type="text" class="form-control"  disabled="true"
-                    id="editedDateTextField"
-                    name="editedDate"
-                    value="<%= survey.editedDate %>"/>
+                <div style="display: none;">
+                    <div class="form-group">
+                        <label for="createdDateTextField">Created Date</label>
+                        <input type="text" class="form-control"  disabled="true"
+                        id="createdDateTextField"
+                        name="createdDate"
+                        value="<%= survey.createdDate %>"/>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="editedDateTextField">Edited Date</label>
+                        <input type="text" class="form-control"  disabled="true"
+                        id="editedDateTextField"
+                        name="editedDate"
+                        value="<%= survey.editedDate %>"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="timesViewedTextField">Times Viewed</label>
+                        <input type="text" class="form-control" disabled="true"
+                        id="timesViewedTextField"
+                        name="timesViewed"
+                        value="<%= survey.timesViewed %>"/>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="timesViewedTextField">Times Viewed</label>
-                    <input type="text" class="form-control" disabled="true"
-                    id="timesViewedTextField"
-                    name="timesViewed"
-                    value="<%= survey.timesViewed %>"/>
+                <div class="mt-2">
+                    <button type="button" class="btn btn-secondary" onclick="return addYesNoQuestion()">
+                        <i class="fas fa-plus"></i> Add Yes / No Question
+                    </button>
+        
+                    <a type="button" class="btn btn-secondary"  onclick="return addShortQuestion()">
+                        <i class="fas fa-plus"></i> Add Short Question </a>
                 </div>
                 
-                <div class="mt-2">
+                <div style="padding-bottom: 100px;" class="mt-2">
                     <button class="btn btn-primary">
                         <i class="fas fa-edit"></i> Submit
                     </button>
