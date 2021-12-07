@@ -8,6 +8,9 @@
     function addYesNoQuestion() {
         let questionsDiv = document.getElementById("questions");
 
+        let div = document.createElement('div');
+        div.id = counter
+
         //Create Input for Question
         let input = document.createElement("input");
         input.id = "question" + counter
@@ -36,21 +39,36 @@
         let br1 = document.createElement("br");
         let br2 = document.createElement("br");
 
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
+
         //Append to Div
-        questionsDiv.appendChild(label);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(input);
-        questionsDiv.appendChild(labelYes);
-        questionsDiv.appendChild(radioInputYes);
-        questionsDiv.appendChild(labelNo);
-        questionsDiv.appendChild(radioInputNo);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(br2);
+        div.appendChild(label);
+        div.appendChild(br1);
+        div.appendChild(input);
+        div.appendChild(deleteButton);
+        div.appendChild(labelYes);
+        div.appendChild(radioInputYes);
+        div.appendChild(labelNo);
+        div.appendChild(radioInputNo);
+        div.appendChild(br1);
+        div.appendChild(br2);
+        questionsDiv.appendChild(div);
         counter++;
     }
 
     function addShortQuestion() {
         let questionsDiv = document.getElementById("questions");
+        //Create Div
+        let div = document.createElement('div');
+        div.id = counter
+
         //Create Label
         let labelQuestion = document.createElement("Label");
         labelQuestion.setAttribute("for", "Question " + counter);
@@ -74,15 +92,32 @@
         inputAnswer.type = "text";
         inputAnswer.className = "form-control";
 
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
 
         //Append to Div
-        questionsDiv.appendChild(labelQuestion);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(inputQuestion);
-        questionsDiv.appendChild(labelAnswer);
-        questionsDiv.appendChild(inputAnswer);
-        questionsDiv.appendChild(br1);
+        div.appendChild(labelQuestion);
+        div.appendChild(br1);
+        div.appendChild(inputQuestion);
+        div.appendChild(labelAnswer);
+        div.appendChild(inputAnswer);
+        div.appendChild(deleteButton);
+        div.appendChild(br1);
+        questionsDiv.appendChild(div);
         counter++;
+    }
+
+    function deleteDiv(question) {
+        let parentDiv = document.getElementById("questions");
+        let questionsDiv = document.getElementById(question);
+        questionsDiv.remove();
+        counter--;
     }
 
  </script>
