@@ -16,11 +16,9 @@ function requireAuth(req, res, next)
 }
 
 /* GET home page. */
-// router.get('/', indexController.displayHomePage);
 router.get('/', surveyController.displaySurveyList);
 
 /* GET home page. */
-// router.get('/home', indexController.displayHomePage);
 router.get('/home', surveyController.displaySurveyList);
 
 /* GET Route for displaying the Add Page - Create Operation */
@@ -38,18 +36,6 @@ router.post('/edit/:id', requireAuth, surveyController.processEditPage);
 /* GET to perform Deletion - DELETE Operation */
 router.get('/delete/:id', requireAuth, surveyController.performDelete);
 
-/* GET about page. */
-// router.get('/about', indexController.displayAboutPage);
-
-/* GET products page. */
-// router.get('/products', indexController.displayProductsPage);
-
-/* GET services page. */
-// router.get('/services', indexController.displayServicesPage);
-
-/* GET contact page. */
-// router.get('/contact', indexController.displayContactPage);
-
 /* GET Route for displaying the Login Page */
 router.get('/login', indexController.displayLoginPage);
 
@@ -64,5 +50,7 @@ router.post('/register', indexController.processRegisterPage);
 
 /* GET to perform logout */
 router.get('/logout', indexController.performLogout);
+
+router.get('/my-survey', indexController.displayMySurveyPage);
 
 module.exports = router;

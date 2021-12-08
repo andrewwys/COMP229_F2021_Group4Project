@@ -10,10 +10,13 @@ let DB = require('../config/db');
 
 //create the user Model instance
 let userModel = require('../models/user');
+let surveyModel = require('../models/survey');
 let User = userModel.User;  //alias
 
 module.exports.displayHomePage = (req, res, next) => {
-    res.render('index', {title: 'Home', displayName: req.user ? req.user.displayName : ''});
+    res.render('index', 
+        {title: 'Home', displayName: req.user ? req.user.displayName : ''}
+    );
 }
 
 module.exports.displayLoginPage = (req, res, next) => {
@@ -146,4 +149,26 @@ module.exports.processRegisterPage = (req, res, next) => {
 module.exports.performLogout = (req, res, next) => {
     req.logout();
     res.redirect('/');
+}
+
+module.exports.displayMySurveyPage = (req, res, next) => {
+    if(!req.user) {
+        res.redirect('/login');
+    }
+    else {
+        var query = { creatorId: req.user.id };
+        // surveyModel.find({ creatorName: 'abc' }).fetch(function(err, results){
+        //     console.log(results); // output all records
+        // });
+        surveyModel.find(query, function(err, surveyList) {
+            if(!err) {
+                console.log(surveyList);
+                res.render('my-survey', {
+                    title: 'My Survey', 
+                    SurveyList: surveyList,
+                    displayName: req.user ? req.user.displayName : ''
+                });
+            }
+        }).sort({ "name": 1 });
+    }
 }
