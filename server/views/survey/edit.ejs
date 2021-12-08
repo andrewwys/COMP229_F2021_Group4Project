@@ -4,19 +4,26 @@
 <!--C Content for the Edit Page-->
 <script type="text/javascript">
     var counter = 1
+    let questionCount = counter;
+    let questionArray = [];
 
     function addYesNoQuestion() {
         let questionsDiv = document.getElementById("questions");
 
+        let div = document.createElement('div');
+        div.id = counter;
+
         //Create Input for Question
         let input = document.createElement("input");
-        input.id = "question" + counter
+        input.id = "question" + counter;
         input.type = "text";
+        input.name = "question" + counter;
         input.className = "form-control";
 
         //Create Label
         let label = document.createElement("Label");
-        label.setAttribute("for", "Question " + counter);
+        label.setAttribute("for", "Question" + counter);
+        label.setAttribute("questionType", "yesno");
         label.innerHTML = "Question" + counter + "\n";
 
         let labelYes = document.createElement("Label");
@@ -28,37 +35,56 @@
         let radioInputYes = document.createElement('input');
         let radioInputNo = document.createElement('input');
         radioInputYes.setAttribute('type', 'radio');
-        radioInputYes.setAttribute('name', 'userQuestion');
+        radioInputYes.setAttribute('name', 'userQuestion' + counter);
         radioInputNo.setAttribute('type', 'radio');
-        radioInputNo.setAttribute('name', 'userQuestion');
+        radioInputNo.setAttribute('name', 'userQuestion' + counter);
 
         //Create Line Break
         let br1 = document.createElement("br");
         let br2 = document.createElement("br");
 
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
+
         //Append to Div
-        questionsDiv.appendChild(label);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(input);
-        questionsDiv.appendChild(labelYes);
-        questionsDiv.appendChild(radioInputYes);
-        questionsDiv.appendChild(labelNo);
-        questionsDiv.appendChild(radioInputNo);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(br2);
+        div.appendChild(label);
+        div.appendChild(br1);
+        div.appendChild(input);
+        div.appendChild(deleteButton);
+        div.appendChild(labelYes);
+        div.appendChild(radioInputYes);
+        div.appendChild(labelNo);
+        div.appendChild(radioInputNo);
+        div.appendChild(br1);
+        div.appendChild(br2);
+        questionsDiv.appendChild(div);
         counter++;
+        incrementQuestionCounter(1)
     }
 
     function addShortQuestion() {
         let questionsDiv = document.getElementById("questions");
+        //Create Div
+        let div = document.createElement('div');
+        div.id = counter
+
         //Create Label
         let labelQuestion = document.createElement("Label");
-        labelQuestion.setAttribute("for", "Question " + counter);
+        labelQuestion.setAttribute("for", "Question" + counter);
         labelQuestion.innerHTML = "Question " + counter;
+        labelQuestion.name = "question" + counter;
 
         let labelAnswer = document.createElement("Label");
         labelAnswer.setAttribute("for", "Question " + counter);
+        labelAnswer.setAttribute("questionType", "short");
         labelAnswer.innerHTML = "Answer for question " + counter;
+        labelAnswer.name = "question" + counter;
 
         let br1 = document.createElement("br");
 
@@ -68,21 +94,55 @@
         inputQuestion.id = "question" + counter
         inputQuestion.type = "text";
         inputQuestion.className = "form-control";
+        inputQuestion.name = "question" + counter;
 
         let inputAnswer = document.createElement("input");
         inputAnswer.id = "answer" + counter
         inputAnswer.type = "text";
         inputAnswer.className = "form-control";
+        inputAnswer.name = "question" + counter;
 
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
 
         //Append to Div
-        questionsDiv.appendChild(labelQuestion);
-        questionsDiv.appendChild(br1);
-        questionsDiv.appendChild(inputQuestion);
-        questionsDiv.appendChild(labelAnswer);
-        questionsDiv.appendChild(inputAnswer);
-        questionsDiv.appendChild(br1);
+        div.appendChild(labelQuestion);
+        div.appendChild(br1);
+        div.appendChild(inputQuestion);
+        div.appendChild(labelAnswer);
+        div.appendChild(inputAnswer);
+        div.appendChild(deleteButton);
+        div.appendChild(br1);
+        questionsDiv.appendChild(div);
         counter++;
+        incrementQuestionCounter(1)
+    }
+
+    function deleteDiv(question) {
+        let parentDiv = document.getElementById("questions");
+        let questionsDiv = document.getElementById(question);
+        questionsDiv.remove();
+        counter--;
+        incrementQuestionCounter(0)
+    }
+
+    function incrementQuestionCounter(bool) {
+        let value = parseInt(document.getElementById('questionsCounter').value, 10);
+        value = isNaN(value) ? 0 : value;
+        if(bool == 1){
+            value++;
+        }
+        else{
+            value--;
+        }
+        document.getElementById('questionsCounter').value = value;
+        console.log(questionArray);
     }
 
  </script>
@@ -164,6 +224,12 @@
     
                     <a href="/delete/<%= survey._id %>" class="btn btn-danger">
                         <i class="fas fa-trash-alt"></i> Delete</a>
+                </div>
+                <div id="hiddenValues" >
+                    <input type="text" class="form-control" value=0
+                    id="questionsCounter" name="questionCounter" placeholder="Questions Counter">
+                    <input type="text" class="form-control" value="Created"
+                    id="status" placeholder="Status">
                 </div>
             </form>
         </div>

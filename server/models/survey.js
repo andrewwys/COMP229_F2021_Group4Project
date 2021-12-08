@@ -9,15 +9,9 @@ let surveyModel = mongoose.Schema({
     editedDate: Date,
     timesViewed: Number,
 	status: String,
-	questions: [{
-		questionTitle: String, 
-		type: String,      // YN, SHORT
-		responseY: Number,    // number of Yes response
-		responseN: Number,    // number of No response
-		responseText: [String]
-	}],
+	creatorName: String,
 	creatorId: String,
-	creatorName: String
+	questions: Array
 },
 {
     collection: "update"

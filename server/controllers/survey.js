@@ -16,10 +16,9 @@ module.exports.displaySurveyList = (req, res, next) => {
         else
         {
             //console.log(BookList);
-
             res.render('survey/list', {title: 'Group 4 Survey Site',
-             SurveyList: surveyList,
-             displayName: req.user ? req.user.displayName : ''});      
+            SurveyList: surveyList,
+            displayName: req.user ? req.user.displayName : ''});      
         }
     }).sort({"name": 1});
 }
@@ -73,9 +72,23 @@ module.exports.displayEditPage = (req, res, next) => {
 }
 
 module.exports.processEditPage = (req, res, next) => {
-    let id = req.params.id
-    let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/')
+    let id = req.params.id;
+    let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+    let questionCounter = req.body.questionCounter;
+    let questionArray = [];
+    //console.log(questionCounter);
 
+    for (let i = 0; i < questionCounter; i++) {
+        let questionObj = {
+            questionTitle: "question",
+            type: "yes",
+            responseY: req.body.questions,
+            responseN: i,
+            responseText: ""
+        };
+        questionArray.push(questionObj);
+    }
+    
     let updatedSurvey = Survey({
         "_id": id,
         "title": req.body.title,
@@ -83,23 +96,24 @@ module.exports.processEditPage = (req, res, next) => {
         "description": req.body.description,
         "createdDate": req.body.createdDate,
         "editedDate": utcDate,
-        "timesViewed": req.body.timesViewed
+        "timesViewed": req.body.timesViewed,
+        "questions": questionArray
     });
-    console.log(updatedSurvey.timesViewed);
 
-    Survey.updateOne({_id: id}, updatedSurvey, (err) => {
-        if(err)
-        {
-            console.log(err);
-            res.end(err);
-        }
-        else
-        {
-            // refresh the contact list
-            res.redirect('/');
-        }
-    });
+     Survey.updateOne({_id: id}, updatedSurvey, (err) => {
+         if(err)
+         {
+             console.log(err);
+             res.end(err);
+         }
+         else
+         {
+             // refresh the contact list
+             res.redirect('/');
+         }
+     });
 }
+
 
 module.exports.performDelete = (req, res, next) => {
     let id = req.params.id;
@@ -114,6 +128,26 @@ module.exports.performDelete = (req, res, next) => {
         {
              // refresh the contact list
              res.redirect('/');
+        }
+    });
+}
+
+module.exports.displaySurveyForm = (req, res, next) => {
+    let id = req.params.id;
+
+    Survey.findById(id, (err, surveyToFill) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the survey form view
+            res.render('survey/surveyForm', 
+            {title: 'Survey Form', 
+            survey: surveyToFill
+        });      
         }
     });
 }
