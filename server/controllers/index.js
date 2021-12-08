@@ -147,3 +147,4 @@ module.exports.performLogout = (req, res, next) => {
     req.logout();
     res.redirect('/');
 }
+

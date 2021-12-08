@@ -117,3 +117,26 @@ module.exports.performDelete = (req, res, next) => {
         }
     });
 }
+
+module.exports.displaySurveyForm = (req, res, next) => {
+    let id = req.params.id;
+
+    Survey.findById(id, (err, surveyToFill) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the survey form view
+            res.render('survey/surveyForm', 
+            {title: 'Survey Form', 
+            survey: surveyToFill,
+            surveyName: "Survey Name", 
+            creatorName: "Creator Name",
+            description: "Description"
+        });      
+        }
+    });
+}

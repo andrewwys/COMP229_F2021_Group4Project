@@ -3,17 +3,16 @@
 
 <!--Content for the the Survey Form (take survey)-->
 
-<main class="container" style="background-color:hsla(240, 68%, 83%, 0.185); padding-bottom: 50px;">
-    <div class="jumbotron">
-      <h1 style="font-family: Garamond, serif;" class="display-4">Survey Name: <%- surveyName%></h1>
-      <h4>Created by: <%- creatorName%></h4>
-      <h4>Description: <%- description%></h4>
-      <hr>
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <h1 style="font-family: Garamond, serif;" class="display-4 mt-3">Survey Name: <%- surveyName%></h1>
+            <h6>Created by: <%- creatorName%></h6>
+            <h6>Description: <%- description%></h6>
+        </div>
     </div>
+</div>
 
-
-
-</main>
 
 <%- include ../partials/bottom_nav.ejs %>
 <%- include ../partials/footer.ejs %>
