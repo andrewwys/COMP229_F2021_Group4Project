@@ -16,10 +16,9 @@ module.exports.displaySurveyList = (req, res, next) => {
         else
         {
             //console.log(BookList);
-
             res.render('survey/list', {title: 'Group 4 Survey Site',
-             SurveyList: surveyList,
-             displayName: req.user ? req.user.displayName : ''});      
+            SurveyList: surveyList,
+            displayName: req.user ? req.user.displayName : ''});      
         }
     }).sort({"name": 1});
 }
@@ -132,10 +131,7 @@ module.exports.displaySurveyForm = (req, res, next) => {
             //show the survey form view
             res.render('survey/surveyForm', 
             {title: 'Survey Form', 
-            survey: surveyToFill,
-            surveyName: "Survey Name", 
-            creatorName: "Creator Name",
-            description: "Description"
+            survey: surveyToFill
         });      
         }
     });
