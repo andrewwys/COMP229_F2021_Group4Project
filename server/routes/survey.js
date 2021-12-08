@@ -38,4 +38,7 @@ router.get('/delete/:id', requireAuth, surveyController.performDelete);
 /* GET to survey form */
 router.get('/form/:id', surveyController.displaySurveyForm);
 
+/* POST Route for survey form submission */
+router.post('/form/:id', surveyController.processSurveyForm);
+
 module.exports = router;
