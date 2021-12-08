@@ -9,6 +9,8 @@ let surveyModel = mongoose.Schema({
     editedDate: Date,
     timesViewed: Number,
 	status: String,
+	creatorName: String,
+	creatorId: String,
 	questions: [{
 		questionTitle: String, 
 		type: String,      // YN, SHORT
