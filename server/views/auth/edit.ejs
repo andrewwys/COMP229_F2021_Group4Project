@@ -1,0 +1,85 @@
+<%- include ../partials/header.ejs %>
+
+<%- include ../partials/main_nav.ejs %>
+    <!-- user Edit page -->
+<main class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-8"></div>
+        <h1 class="mb-4"><%= title %> </h1>
+
+        <form class="form" method="POST">
+            <div class="form-group">
+                <label for="usernameTextField" class="mb-1">Username:</label>
+                <input 
+                    type="text" 
+                    class="form-control mb-3"
+                    id="usernameTextField"
+                    placeholder="Enter Username"
+                    name="name"
+                    value="<%- users.username %>"
+                    required
+                    readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="npasswordTextField" class="mb-1">New Password:</label>
+                <input 
+                    type="text" 
+                    class="form-control mb-3"
+                    id="npasswordTextField"
+                    placeholder="Enter New Password"
+                    value="" 
+                    name="newpassword" 
+                    
+                    required>
+            </div>
+
+            <div class="form-group">
+                <label for="cpasswordTextField" class="mb-1">Confirm Password:</label>
+                <input 
+                    type="password" 
+                    class="form-control mb-3"
+                    id="cpasswordTextField"
+                    placeholder="Enter Password again"
+                    value="" 
+                    name="number" 
+                    
+                    required>
+            </div>
+            <div class="form-group">
+                <label for="emailTextField" class="mb-1">Email:</label>
+                <input 
+                    type="text" 
+                    class="form-control mb-3"
+                    id="emailTextField"
+                    placeholder="Enter email"
+                    name="email" 
+                    value="<%- users.email %>"
+                    required
+                    readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="dnameTextField" class="mb-1">Display Name:</label>
+                <input 
+                    type="text" 
+                    class="form-control mb-3"
+                    id="dnameTextField"
+                    placeholder="Enter display name"
+                    name="displayName" 
+                    value="<%- users.displayName %>"
+                    required>
+            </div>
+            <% if (isAuthenticated && user._id.toString() === currentUser._id.toString()) { %>
+            <button class="btn btn-warning mt-3" type="submit">Edit</button>
+            <a href="/home" class="btn btn-secondary mt-3">Cancel</a>
+            
+            
+        </form>
+</main>
+
+
+<%- include ../partials/bottom_nav.ejs %>  
+
+<%- include ../partials/footer.ejs %>
+  
