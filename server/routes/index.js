@@ -15,26 +15,12 @@ function requireAuth(req, res, next)
     next();
 }
 
-/* GET home page. */
-router.get('/', surveyController.displaySurveyList);
+// /* GET home page. */
+router.get('/', indexController.displaySurveyList);
 
-/* GET home page. */
-router.get('/home', surveyController.displaySurveyList);
+// /* GET home page. */
+router.get('/home', indexController.displaySurveyList);
 
-/* GET Route for displaying the Add Page - Create Operation */
-router.get('/add', requireAuth, surveyController.displayAddPage);
-
-/* POST Post for processing the Add Page - Create Operation */
-router.post('/add', requireAuth, surveyController.processAddPage);
-
-/* GET Route for displaying the Edit Page - UPDATE Operation */
-router.get('/edit/:id', requireAuth, surveyController.displayEditPage);
-
-/* POST Post for processing the Edit Page - UPDATE Operation */
-router.post('/edit/:id', requireAuth, surveyController.processEditPage);
-
-/* GET to perform Deletion - DELETE Operation */
-router.get('/delete/:id', requireAuth, surveyController.performDelete);
 
 /* GET Route for displaying the Login Page */
 router.get('/login', indexController.displayLoginPage);

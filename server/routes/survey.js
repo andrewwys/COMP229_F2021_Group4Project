@@ -17,9 +17,6 @@ function requireAuth(req, res, next)
     next();
 }
 
-/* GET Route for the Book List page - READ Operation */
-router.get('/', surveyController.displaySurveyList);
-
 /* GET Route for displaying the Add Page - Create Operation */
 router.get('/add', requireAuth, surveyController.displayAddPage);
 
@@ -40,5 +37,7 @@ router.get('/form/:id', surveyController.displaySurveyForm);
 
 /* POST Route for survey form submission */
 router.post('/form/:id', surveyController.processSurveyForm);
+
+router.get('/report/:id', requireAuth, surveyController.displayReportPage);
 
 module.exports = router;

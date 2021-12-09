@@ -17,9 +17,11 @@ module.exports.displaySurveyList = (req, res, next) => {
         else
         {
             //console.log(BookList);
-            res.render('survey/list', {title: 'Group 4 Survey Site',
-            SurveyList: surveyList,
-            displayName: req.user ? req.user.displayName : ''});      
+            res.render('survey/list', {
+                title: 'Group 4 Survey Site',
+                SurveyList: surveyList,
+                displayName: req.user ? req.user.displayName : ''
+            });      
         }
     }).sort({"name": 1});
 }
@@ -66,8 +68,11 @@ module.exports.displayEditPage = (req, res, next) => {
         else
         {
             //show the edit view
-            res.render('survey/edit', {title: 'Edit Survey', survey: surveyToEdit,
-            displayName: req.user ? req.user.displayName : ''});      
+            res.render('survey/edit', {
+                title: 'Edit Survey', 
+                survey: surveyToEdit,
+                displayName: req.user ? req.user.displayName : ''
+            });      
         }
     });
 }
@@ -145,14 +150,35 @@ module.exports.displaySurveyForm = (req, res, next) => {
         else
         {
             //show the survey form view
-            res.render('survey/surveyForm', 
-            {title: 'Survey Form', 
-            survey: surveyToFill
-        });      
+            res.render('survey/surveyForm', {
+                title: 'Survey Form', 
+                displayName: req.user ? req.user.displayName : '',
+                survey: surveyToFill
+            });
         }
     });
 }
 
+module.exports.displayReportPage = (req, res, next) => {
+    let id = req.params.id;
+
+    Survey.findById(id, (err, surveyToFill) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the survey form view
+            res.render('survey/report', {
+                title: 'Report', 
+                displayName: req.user ? req.user.displayName : '',
+                survey: surveyToFill
+            });      
+        }
+    });
+}
 module.exports.processSurveyForm = (req, res, next) => {
     let id = req.params.id;
     // let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');

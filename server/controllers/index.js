@@ -4,7 +4,6 @@ let mongoose = require('mongoose');
 let passport = require('passport');
 
 //enable JWT
-
 let jwt = require('jsonwebtoken');
 let DB = require('../config/db');
 
@@ -13,10 +12,28 @@ let userModel = require('../models/user');
 let surveyModel = require('../models/survey');
 let User = userModel.User;  //alias
 
-module.exports.displayHomePage = (req, res, next) => {
-    res.render('index', 
-        {title: 'Home', displayName: req.user ? req.user.displayName : ''}
-    );
+// module.exports.displayHomePage = (req, res, next) => {
+//     res.render('index', 
+//         {title: 'Home', displayName: req.user ? req.user.displayName : ''}
+//     );
+// }
+
+module.exports.displaySurveyList = (req, res, next) => {
+    surveyModel.find((err, surveyList) => {
+        if(err)
+        {
+            return console.error(err);
+        }
+        else
+        {
+            //console.log(BookList);
+            res.render('survey/list', {
+                title: 'Group 4 Survey Site',
+                SurveyList: surveyList,
+                displayName: req.user ? req.user.displayName : ''
+            });      
+        }
+    }).sort({"name": 1});
 }
 
 module.exports.displayLoginPage = (req, res, next) => {
@@ -157,9 +174,7 @@ module.exports.displayMySurveyPage = (req, res, next) => {
     }
     else {
         var query = { creatorId: req.user.id };
-        // surveyModel.find({ creatorName: 'abc' }).fetch(function(err, results){
-        //     console.log(results); // output all records
-        // });
+
         surveyModel.find(query, function(err, surveyList) {
             if(!err) {
                 console.log(surveyList);
