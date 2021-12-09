@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
+const { updateMany } = require('../models/survey');
 
 // let jwt = require('jsonwebtoken');
 
@@ -177,4 +178,67 @@ module.exports.displayReportPage = (req, res, next) => {
             });      
         }
     });
+}
+module.exports.processSurveyForm = (req, res, next) => {
+    let id = req.params.id;
+    // let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+    let questionCounter = req.body.questionCounter;
+    let questionArray = req.body.questionsArr;
+    for (let i=0; i<questionCounter; i++) {
+
+        let updateQuery = {
+            $set: {
+              //  "questions.$.responseY" : 3
+               "description" : req.body.qTitle1, 
+            } 
+        };
+
+        Survey.updateOne({_id: id}, updateQuery, (err) => {
+            if(err) {
+                console.log(err);
+                res.end(err);
+            } 
+        });
+
+        // eval("questionArray.push(req.body.question" + i + ");");
+    }
+
+    res.redirect('/');
+    
+    // console.log("process survey: " , questionArray);
+
+    // for (let i = 0; i < questionCounter; i++) {
+    //     let questionObj = {
+    //         questionTitle: "question",
+    //         type: "yes",
+    //         responseY: req.body.questions,
+    //         responseN: i,
+    //         responseText: ""
+    //     };
+    //     questionArray.push(questionObj);
+    // }
+    
+    // let updatedSurvey = Survey({
+    //     "_id": id,
+    //     "title": req.body.title,
+    //     "name": req.body.name,
+    //     "description": req.body.description,
+    //     "createdDate": req.body.createdDate,
+    //     "editedDate": utcDate,
+    //     "timesViewed": req.body.timesViewed,
+    //     "questions": questionArray
+    // });
+
+    //  Survey.updateMany({_id: id}, updateQuery, (err) => {
+    //      if(err)
+    //      {
+    //          console.log(err);
+    //          res.end(err);
+    //      }
+    //      else
+    //      {
+    //          // refresh the contact list
+    //          res.redirect('/');
+    //      }
+    //  });
 }
