@@ -26,11 +26,11 @@
                         <td class="text-center col-7"><%= SurveyList[count].title %></td>
                         <td class="text-center col-1"><%= SurveyList[count].status %></td>
                         <td class="text-center col-4">
-                            <a href="/edit/<%= SurveyList[count]._id %>" class="btn btn-primary btn-sm">
+                            <a href="/survey/edit/<%= SurveyList[count]._id %>" class="btn btn-primary btn-sm">
                                 <i class="fas fa-pencil-alt"></i> Edit</a>
-                            <a href="/export/<%= SurveyList[count]._id %>" class="btn btn-primary btn-sm">
-                                <i class="fas fa-file-export"></i> Export</a>
-                            <a href="/delete/<%= SurveyList[count]._id %>" class="btn btn-danger btn-sm">
+                            <a href="/survey/report/<%= SurveyList[count]._id %>" class="btn btn-primary btn-sm">
+                                <i class="fas fa-file-export"></i> Report</a>
+                            <a href="/survey/delete/<%= SurveyList[count]._id %>" class="btn btn-danger btn-sm">
                                 <i class="fas fa-trash-alt"></i> Delete</a>
                         </td>
                     </tr>
