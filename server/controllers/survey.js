@@ -157,17 +157,19 @@ module.exports.processSurveyForm = (req, res, next) => {
     let id = req.params.id;
     // let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
     let questionCounter = req.body.questionCounter;
-    let questionArray = req.body.questionsArr;
     for (let i=0; i<questionCounter; i++) {
-
+        // define response to YN question
+        let responseYN = eval("req.body.responseYN" + i.toString());
+        let responseY = responseYN? parseInt(responseYN) : 0;
+        let responseN = responseYN? Math.abs(responseY-1) : 0;
         let updateQuery = {
-            $set: {
-              //  "questions.$.responseY" : 3
-               "description" : req.body.qTitle1, 
+            $inc: {
+               "questions.$.responseY": responseY,
+               "questions.$.responseN": responseN
             } 
         };
 
-        Survey.updateOne({_id: id}, updateQuery, (err) => {
+        Survey.updateOne({_id: id, "questions.questionTitle": eval("req.body.qTitle" + i.toString()) }, updateQuery, (err) => {
             if(err) {
                 console.log(err);
                 res.end(err);
