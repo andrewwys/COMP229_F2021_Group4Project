@@ -179,6 +179,7 @@ module.exports.displayReportPage = (req, res, next) => {
         }
     });
 }
+
 module.exports.processSurveyForm = (req, res, next) => {
     let id = req.params.id;
     // let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
@@ -188,11 +189,15 @@ module.exports.processSurveyForm = (req, res, next) => {
         let responseYN = eval("req.body.responseYN" + i.toString());
         let responseY = responseYN? parseInt(responseYN) : 0;
         let responseN = responseYN? Math.abs(responseY-1) : 0;
+        let responseText = eval("req.body.responseText" + i.toString());
         let updateQuery = {
             $inc: {
-               "questions.$.responseY": responseY,
-               "questions.$.responseN": responseN
-            } 
+                "questions.$.responseY": responseY,
+                "questions.$.responseN": responseN
+            },
+            $push: {
+                "questions.$.responseText": responseText
+            }
         };
 
         Survey.updateOne({_id: id, "questions.questionTitle": eval("req.body.qTitle" + i.toString()) }, updateQuery, (err) => {
@@ -206,41 +211,4 @@ module.exports.processSurveyForm = (req, res, next) => {
     }
 
     res.redirect('/');
-    
-    // console.log("process survey: " , questionArray);
-
-    // for (let i = 0; i < questionCounter; i++) {
-    //     let questionObj = {
-    //         questionTitle: "question",
-    //         type: "yes",
-    //         responseY: req.body.questions,
-    //         responseN: i,
-    //         responseText: ""
-    //     };
-    //     questionArray.push(questionObj);
-    // }
-    
-    // let updatedSurvey = Survey({
-    //     "_id": id,
-    //     "title": req.body.title,
-    //     "name": req.body.name,
-    //     "description": req.body.description,
-    //     "createdDate": req.body.createdDate,
-    //     "editedDate": utcDate,
-    //     "timesViewed": req.body.timesViewed,
-    //     "questions": questionArray
-    // });
-
-    //  Survey.updateMany({_id: id}, updateQuery, (err) => {
-    //      if(err)
-    //      {
-    //          console.log(err);
-    //          res.end(err);
-    //      }
-    //      else
-    //      {
-    //          // refresh the contact list
-    //          res.redirect('/');
-    //      }
-    //  });
 }
