@@ -34,6 +34,12 @@ router.get('/register', indexController.displayRegisterPage);
 /* POST Post for processing the Register Page*/
 router.post('/register', indexController.processRegisterPage);
 
+/* GET Route for displaying the Edit Page */
+router.get('/editprofile/:id', requireAuth, indexController.displayEditUserPage);
+
+/* POST Post for processing the Edit Page*/
+router.post('/editprofile/:id', requireAuth, indexController.processEditUserPage);
+
 /* GET to perform logout */
 router.get('/logout', indexController.performLogout);
 

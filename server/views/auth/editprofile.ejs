@@ -15,8 +15,8 @@
                     class="form-control mb-3"
                     id="usernameTextField"
                     placeholder="Enter Username"
-                    name="name"
-                    value="<%- users.username %>"
+                    name="userName"
+                    value="<%-user.username%>"
                     required
                     readonly>
             </div>
@@ -42,7 +42,7 @@
                     id="cpasswordTextField"
                     placeholder="Enter Password again"
                     value="" 
-                    name="number" 
+                    name="confirmPass" 
                     
                     required>
             </div>
@@ -54,7 +54,7 @@
                     id="emailTextField"
                     placeholder="Enter email"
                     name="email" 
-                    value="<%- users.email %>"
+                    value="<%- user.email %>"
                     required
                     readonly>
             </div>
@@ -67,11 +67,12 @@
                     id="dnameTextField"
                     placeholder="Enter display name"
                     name="displayName" 
-                    value="<%- users.displayName %>"
+                    value="<%- user.displayName %>"
                     required>
             </div>
-            <% if (isAuthenticated && user._id.toString() === currentUser._id.toString()) { %>
+            <% if (("confirmPass").value== ("newpassword").value){ %> 
             <button class="btn btn-warning mt-3" type="submit">Edit</button>
+           <%}%> 
             <a href="/home" class="btn btn-secondary mt-3">Cancel</a>
             
             

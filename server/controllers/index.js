@@ -163,6 +163,50 @@ module.exports.processRegisterPage = (req, res, next) => {
     });
 }
 
+module.exports.displayEditUserPage = (req, res, next) => {
+    let id = req.user._id;
+
+    User.findById(id, (err, UserToEdit) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            //show the edit view
+            res.render('auth/editprofile', {title: 'Edit User', user : UserToEdit,
+            displayName: req.user ? req.user.displayName : ''});      
+        }
+    });
+}
+
+module.exports.processEditUserPage = (req, res, next) => {
+    let id = req.user._id;
+
+    let updatedUser = User({
+        "_id": id,
+        "username": req.body.userName,
+        "password": req.body.confirmPass,
+        "email": req.body.email,
+        "displayName": req.body.displayName,
+    });
+
+    User.updateOne({_id: id}, updatedUser, (err) => {
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            // refresh the book list
+            res.redirect('/');
+        }
+    });
+}
+
+
 module.exports.performLogout = (req, res, next) => {
     req.logout();
     res.redirect('/');
