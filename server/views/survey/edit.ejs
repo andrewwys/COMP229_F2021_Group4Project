@@ -26,19 +26,6 @@
         label.setAttribute("questionType", "yesno");
         label.innerHTML = "Question" + counter + "\n";
 
-        let labelYes = document.createElement("Label");
-        labelYes.innerHTML = "Yes &nbsp;";
-        let labelNo = document.createElement("Label");
-        labelNo.innerHTML = "&nbsp; &nbsp; No &nbsp;";
-
-        //Create Radio Buttons
-        let radioInputYes = document.createElement('input');
-        let radioInputNo = document.createElement('input');
-        radioInputYes.setAttribute('type', 'radio');
-        radioInputYes.setAttribute('name', 'userQuestion' + counter);
-        radioInputNo.setAttribute('type', 'radio');
-        radioInputNo.setAttribute('name', 'userQuestion' + counter);
-
         //Create Line Break
         let br1 = document.createElement("br");
         let br2 = document.createElement("br");
@@ -57,15 +44,11 @@
         div.appendChild(br1);
         div.appendChild(input);
         div.appendChild(deleteButton);
-        div.appendChild(labelYes);
-        div.appendChild(radioInputYes);
-        div.appendChild(labelNo);
-        div.appendChild(radioInputNo);
-        div.appendChild(br1);
         div.appendChild(br2);
         questionsDiv.appendChild(div);
         counter++;
-        incrementQuestionCounter(1)
+        incrementQuestionCounter(1);
+        buildTypeString(0);
     }
 
     function addShortQuestion() {
@@ -88,19 +71,12 @@
 
         let br1 = document.createElement("br");
 
-
         //Create Input
         let inputQuestion = document.createElement("input");
         inputQuestion.id = "question" + counter
         inputQuestion.type = "text";
         inputQuestion.className = "form-control";
         inputQuestion.name = "question" + counter;
-
-        let inputAnswer = document.createElement("input");
-        inputAnswer.id = "answer" + counter
-        inputAnswer.type = "text";
-        inputAnswer.className = "form-control";
-        inputAnswer.name = "question" + counter;
 
         //create delete button
         let deleteButton = document.createElement('button')
@@ -115,13 +91,12 @@
         div.appendChild(labelQuestion);
         div.appendChild(br1);
         div.appendChild(inputQuestion);
-        div.appendChild(labelAnswer);
-        div.appendChild(inputAnswer);
         div.appendChild(deleteButton);
         div.appendChild(br1);
         questionsDiv.appendChild(div);
         counter++;
-        incrementQuestionCounter(1)
+        incrementQuestionCounter(1);
+        buildTypeString(1);
     }
 
     function deleteDiv(question) {
@@ -129,7 +104,8 @@
         let questionsDiv = document.getElementById(question);
         questionsDiv.remove();
         counter--;
-        incrementQuestionCounter(0)
+        incrementQuestionCounter(0);
+        buildTypeString(3);
     }
 
     function incrementQuestionCounter(bool) {
@@ -142,7 +118,25 @@
             value--;
         }
         document.getElementById('questionsCounter').value = value;
-        console.log(questionArray);
+    }
+
+    function buildTypeString(bool) {
+        let value = document.getElementById('questionType').value;
+        switch(bool) {
+            case 0:
+                value = value + "YN,";
+                break;
+            case 1:
+                value = value + "short,";
+                break;
+            default:
+                let oldValue = value.split(",")
+                value = oldValue.slice(0, oldValue.length - 2).join(",") + ",";
+                if(value == ","){
+                    value = " ";
+                }
+            }
+        document.getElementById('questionType').value = value;
     }
 
  </script>
@@ -177,7 +171,20 @@
                     value="<%= survey.description %>"/>
                 </div>
                 <div class="form-group" id="questions">
-
+                    <% let qArray = survey.questions %> 
+                    <% for (let i = 0; i < qArray.length; i++) { %>
+                        <div class="mt-4">Question <%- i+1 %>: </div>
+                        <input type="hidden" class="form-control" value="<%- qArray[i].questionTitle %>" 
+                            id="questionsTitle" name="qTitle<%-i%>" placeholder="Questions array">
+                        <div class="mx-4">
+                            <% if (qArray[i].type == "YN") { %>  
+                                <input type="text" class="form-control" id="question<%= i %>" name="question<%= i %>" 
+                                value="<%- qArray[i].questionTitle %>" required>
+                            <% } else { %>
+                                <input type="text" class="form-control" id="textInput" name="responseText<%= i %>" size="40" required>
+                            <% } %>
+                        </div>
+                    <% } %>
                 </div>
                 <div style="display: none;">
                     <div class="form-group">
@@ -230,6 +237,8 @@
                     id="questionsCounter" name="questionCounter" placeholder="Questions Counter">
                     <input type="text" class="form-control" value="Created"
                     id="status" placeholder="Status">
+                    <input type="text" class="form-control" value=""
+                    id="questionType" name="questionType" placeholder="Status">
                 </div>
             </form>
         </div>

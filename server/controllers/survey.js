@@ -80,21 +80,29 @@ module.exports.displayEditPage = (req, res, next) => {
 module.exports.processEditPage = (req, res, next) => {
     let id = req.params.id;
     let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-    let questionCounter = req.body.questionCounter;
+    let questionCounter = Number(req.body.questionCounter) + 1;
     let questionArray = [];
-    //console.log(questionCounter);
-
-    for (let i = 0; i < questionCounter; i++) {
-        let questionObj = {
-            questionTitle: "question",
-            type: "yes",
-            responseY: req.body.questions,
-            responseN: i,
-            responseText: ""
-        };
-        questionArray.push(questionObj);
+    let typeString = req.body.questionType;
+    typeString = typeString.substring(0, typeString.length - 1);
+    let typeArray = typeString.split(',');
+    for (let i = 1; i < questionCounter; i++) {
+        if(typeArray[i - 1] == "YN"){
+            let questionObj = {
+                questionTitle: req.body["question" + i],
+                type: typeArray[i - 1]
+            };
+            questionArray.push(questionObj);
+        }
+        else
+        {
+            let questionObj = {
+                questionTitle: req.body["question" + i],
+                type: typeArray[i - 1]
+            };
+            questionArray.push(questionObj);
+        }
     }
-    
+
     let updatedSurvey = Survey({
         "_id": id,
         "title": req.body.title,
