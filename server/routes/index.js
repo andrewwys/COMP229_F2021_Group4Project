@@ -2,7 +2,6 @@ let express = require('express');
 let router = express.Router();
 
 let indexController = require('../controllers/index');
-let surveyController = require('../controllers/survey');
 
 //helper function for guard purposes - guarding the root
 function requireAuth(req, res, next)

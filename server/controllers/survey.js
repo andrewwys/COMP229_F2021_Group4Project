@@ -1,30 +1,9 @@
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
-const { updateMany } = require('../models/survey');
-
-// let jwt = require('jsonwebtoken');
 
 // create a reference to the model
 let Survey = require('../models/survey');
-
-module.exports.displaySurveyList = (req, res, next) => {
-    Survey.find((err, surveyList) => {
-        if(err)
-        {
-            return console.error(err);
-        }
-        else
-        {
-            //console.log(BookList);
-            res.render('survey/list', {
-                title: 'Group 4 Survey Site',
-                SurveyList: surveyList,
-                displayName: req.user ? req.user.displayName : ''
-            });      
-        }
-    }).sort({"name": 1});
-}
 
 module.exports.displayAddPage = (req, res, next) => {
     res.render('survey/add', {title: 'Add Survey'})          

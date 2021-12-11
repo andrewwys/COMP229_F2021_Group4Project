@@ -19,19 +19,19 @@ let User = userModel.User;  //alias
 // }
 
 module.exports.displaySurveyList = (req, res, next) => {
-    surveyModel.find((err, surveyList) => {
-        if(err)
-        {
-            return console.error(err);
-        }
-        else
-        {
-            //console.log(BookList);
+    var query = { status: 'ACTIVE' };
+
+    surveyModel.find(query, function(err, surveyList) {
+        if(!err) {
             res.render('survey/list', {
                 title: 'Group 4 Survey Site',
                 SurveyList: surveyList,
                 displayName: req.user ? req.user.displayName : ''
-            });      
+            }); 
+        }
+        else
+        {
+            return console.error(err);
         }
     }).sort({"name": 1});
 }
@@ -221,7 +221,6 @@ module.exports.displayMySurveyPage = (req, res, next) => {
 
         surveyModel.find(query, function(err, surveyList) {
             if(!err) {
-                console.log(surveyList);
                 res.render('my-survey', {
                     title: 'My Survey', 
                     SurveyList: surveyList,
