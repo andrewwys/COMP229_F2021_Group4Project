@@ -2,6 +2,160 @@
 <%- include ../partials/main_nav.ejs %>
 
 <!--C Content for the Add Page-->
+<!--C Content for the Edit Page-->
+<script type="text/javascript">
+    var counter = 1
+    let questionCount = counter;
+    let questionArray = [];
+
+    function addYesNoQuestion() {
+        let questionsDiv = document.getElementById("questions");
+
+        let div = document.createElement('div');
+        div.id = counter;
+
+        //Create Input for Question
+        let input = document.createElement("input");
+        input.id = "question" + counter;
+        input.type = "text";
+        input.name = "question" + counter;
+        input.className = "form-control";
+
+        let inputType = document.createElement("input");
+        inputType.id = "type" + counter
+        inputType.type = "hidden";
+        inputType.name = "type" + counter;
+        inputType.value = "YN"
+
+        //Create Label
+        let label = document.createElement("Label");
+        label.setAttribute("for", "Question" + counter);
+        label.setAttribute("questionType", "yesno");
+        label.innerHTML = "Question" + counter + "\n";
+
+        //Create Line Break
+        let br1 = document.createElement("br");
+        let br2 = document.createElement("br");
+
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
+
+        //Append to Div
+        div.appendChild(label);
+        div.appendChild(br1);
+        div.appendChild(input);
+        div.appendChild(inputType);
+        div.appendChild(deleteButton);
+        div.appendChild(br2);
+        questionsDiv.appendChild(div);
+        counter++;
+        incrementQuestionCounter(1);
+        buildTypeString(0);
+    }
+
+    function addShortQuestion() {
+        let questionsDiv = document.getElementById("questions");
+        //Create Div
+        let div = document.createElement('div');
+        div.id = counter
+
+        //Create Label
+        let labelQuestion = document.createElement("Label");
+        labelQuestion.setAttribute("for", "Question" + counter);
+        labelQuestion.innerHTML = "Question " + counter;
+        labelQuestion.name = "question" + counter;
+
+        let labelAnswer = document.createElement("Label");
+        labelAnswer.setAttribute("for", "Question " + counter);
+        labelAnswer.setAttribute("questionType", "short");
+        labelAnswer.innerHTML = "Answer for question " + counter;
+        labelAnswer.name = "question" + counter;
+
+        let br1 = document.createElement("br");
+
+        //Create Input
+        let inputQuestion = document.createElement("input");
+        inputQuestion.id = "question" + counter
+        inputQuestion.type = "text";
+        inputQuestion.className = "form-control";
+        inputQuestion.name = "question" + counter;
+
+        let inputType = document.createElement("input");
+        inputType.id = "type" + counter
+        inputType.type = "hidden";
+        inputType.name = "type" + counter;
+        inputType.value = "short"
+
+        //create delete button
+        let deleteButton = document.createElement('button')
+        deleteButton.className = "btn btn-danger"
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.id = counter;
+        deleteButton.type = "button"
+        deleteButton.setAttribute("onclick", "deleteDiv(" + counter + ")");
+        deleteButton.setAttribute("style", "float:right");
+
+        //Append to Div
+        div.appendChild(labelQuestion);
+        div.appendChild(br1);
+        div.appendChild(inputQuestion);
+        div.appendChild(inputType);
+        div.appendChild(deleteButton);
+        div.appendChild(br1);
+        questionsDiv.appendChild(div);
+        counter++;
+        incrementQuestionCounter(1);
+        buildTypeString(1);
+    }
+
+    function deleteDiv(question) {
+        let parentDiv = document.getElementById("questions");
+        let questionsDiv = document.getElementById(question);
+        questionsDiv.remove();
+        counter--;
+        incrementQuestionCounter(0);
+        buildTypeString(3);
+    }
+
+    function incrementQuestionCounter(bool) {
+        let value = parseInt(document.getElementById('questionsCounter').value, 10);
+        value = isNaN(value) ? 0 : value;
+        if(bool == 1){
+            value++;
+        }
+        else{
+            value--;
+        }
+        document.getElementById('questionsCounter').value = value;
+    }
+
+    function buildTypeString(bool) {
+        let value = document.getElementById('questionType').value;
+        switch(bool) {
+            case 0:
+                value = value + "YN,";
+                break;
+            case 1:
+                value = value + "short,";
+                break;
+            default:
+                let oldValue = value.split(",")
+                value = oldValue.slice(0, oldValue.length - 2).join(",") + ",";
+                if(value == ","){
+                    value = " ";
+                }
+            }
+        document.getElementById('questionType').value = value;
+    }
+
+ </script>
+
 
 <div class="container">
     <div class="offset-md-2 col-md-8">
@@ -46,16 +200,33 @@
                 <input type="text" class="form-control"
                 id="timesViewedTextField" name="timesViewed">
             </div>
-            <div class="mt-5 mb-5">
-                <button class="btn btn-secondary">
-                    <i class="fas fa-edit"></i> Add Survey Questions</button>
-            </div>
-            <div class="mt-5 mb-5">
-            <button class="btn btn-primary">
-                <i class="fas fa-edit"></i> Submit</button>
 
+            <div class="form-group" id="questions"></div>
+
+            <div class="mt-2">
+                <button type="button" class="btn btn-secondary" onclick="return addYesNoQuestion()">
+                    <i class="fas fa-plus"></i> Add Yes / No Question
+                </button>
+    
+                <a type="button" class="btn btn-secondary"  onclick="return addShortQuestion()">
+                    <i class="fas fa-plus"></i> Add Short Question </a>
+            </div>
+            
+            <div style="padding-bottom: 100px;" class="mt-2">
+                <button class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Submit
+                </button>
+    
                 <a href="/" class="btn btn-warning">
                     <i class="fas fa-undo"></i> Cancel</a>
+            </div>
+            <div style="display: none;" id="hiddenValues" >
+                <input type="text" class="form-control" value=0
+                id="questionsCounter" name="questionCounter" placeholder="Questions Counter">
+                <input type="text" class="form-control" value="ACTIVE"
+                id="status" name="questionStatus" placeholder="Status">
+                <input type="text" class="form-control" value=""
+                id="questionType" name="questionType" placeholder="Status">
             </div>
         </form>
     </div>

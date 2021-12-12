@@ -10,7 +10,28 @@ module.exports.displayAddPage = (req, res, next) => {
 }
 
 module.exports.processAddPage = (req, res, next) => {
+    let id = req.params.id;
     let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+    let questionCounter = Number(req.body.questionCounter) + 1;
+    let questionArray = [];
+    for (let i = 1; i < questionCounter; i++) {
+        if(req.body["type" + i] == "YN" || req.body["type" + i] == " YN"){
+            let questionObj = {
+                questionTitle: req.body["question" + i],
+                type: req.body["type" + i]
+            };
+            questionArray.push(questionObj);
+        }
+        else
+        {
+            let questionObj = {
+                questionTitle: req.body["question" + i],
+                type: req.body["type" + i]
+            };
+            questionArray.push(questionObj);
+        }
+    }
+
 
     let newSurvey = Survey({
         "title": req.body.title,
@@ -18,10 +39,13 @@ module.exports.processAddPage = (req, res, next) => {
         "description": req.body.description,
         "createdDate": utcDate,
         "editedDate": utcDate,
-        "timesViewed": 1
+        "timesViewed": 1,
+        "status": req.body.questionStatus,
+        "questions": questionArray
     });
 
-    Survey.create(newSurvey, (err, Survey) =>{
+
+    Survey.create(newSurvey, (err, Survey) => {
         if(err)
         {
             console.log(err);
@@ -61,14 +85,12 @@ module.exports.processEditPage = (req, res, next) => {
     let utcDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
     let questionCounter = Number(req.body.questionCounter) + 1;
     let questionArray = [];
-    let typeString = req.body.questionType;
-    typeString = typeString.substring(0, typeString.length - 1);
-    let typeArray = typeString.split(',');
     for (let i = 1; i < questionCounter; i++) {
-        if(typeArray[i - 1] == "YN"){
+        console.log(req.body["type" + i]);
+        if(req.body["type" + i] == "YN" || req.body["type" + i] == " YN"){
             let questionObj = {
                 questionTitle: req.body["question" + i],
-                type: typeArray[i - 1]
+                type: req.body["type" + i]
             };
             questionArray.push(questionObj);
         }
@@ -76,7 +98,7 @@ module.exports.processEditPage = (req, res, next) => {
         {
             let questionObj = {
                 questionTitle: req.body["question" + i],
-                type: typeArray[i - 1]
+                type: req.body["type" + i]
             };
             questionArray.push(questionObj);
         }
@@ -90,6 +112,7 @@ module.exports.processEditPage = (req, res, next) => {
         "createdDate": req.body.createdDate,
         "editedDate": utcDate,
         "timesViewed": req.body.timesViewed,
+        "status": req.body.questionStatus,
         "questions": questionArray
     });
 
@@ -106,6 +129,8 @@ module.exports.processEditPage = (req, res, next) => {
          }
      });
 }
+
+
 
 
 module.exports.performDelete = (req, res, next) => {
