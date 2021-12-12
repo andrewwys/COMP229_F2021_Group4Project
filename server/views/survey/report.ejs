@@ -1,11 +1,71 @@
 <%- include ../partials/header.ejs %>
 <%- include ../partials/main_nav.ejs %>
 
+<script type="text/javascript">
+
+    function convertToCSV (questionList) {
+        let result = '';
+        let columnDelimiter = ',';
+        let lineDelimiter = '\n';
+
+        let header = 'Question Number,Question Text,Responded Yes,Yes Percentage,Responded No,No Percentage,Total Responses,Short Answer Responses';
+        result += header + lineDelimiter;
+
+        let counter = 1;
+        for (let question of questionList) {
+            result += counter + columnDelimiter;
+            result += question.questionTitle + columnDelimiter;
+            let total = question.responseY + question.responseN;
+            result += question.responseY + columnDelimiter;
+            let yPercent = Math.round(question.responseY/total*100);
+            let nPercent = Math.round(question.responseN/total*100);
+            result += yPercent + columnDelimiter;
+            result += question.responseN + columnDelimiter;
+            result += nPercent + columnDelimiter;
+            result += total + columnDelimiter;
+
+            if(question.type == 'SHORT') {
+                for (let text of question.responseText) {
+                    result += ' (' + text + ') '; 
+                }
+            }
+            
+            result += lineDelimiter;
+            counter += 1;
+        }
+
+        return result;
+
+    }
+
+    function downloadCSV() {
+
+        let testData = {"_id":{"$oid":"61b0fe1ba2add91264bd973e"},"title":"Andrew Use Only","name":"Andrew Use Only","description":"HHHIII","createdDate":{"$date":"2021-12-06T05:00:00.000Z"},"editedDate":{"$date":"2021-12-08T05:00:00.000Z"},"timesViewed":1,"status":"ACTIVE","questions":[{"questionTitle":"How are you?","type":"YN","responseY":5,"responseN":4,"responseText":[""]},{"questionTitle":"Tell me about yourself","type":"SHORT","responseY":0,"responseN":0,"responseText":["I am fine.","I am 15 years old.","I am a student","s1","alshflkdsflkaj"]}],"creatorId":"6190332f0c78d5e3fcbac953","creatorName":"Andrew"};
+        let questions = testData.questions;
+
+        let csv = convertToCSV(questions);
+        if (csv == null) return;
+
+        csv = 'data:text/csv;charset=utf-8,' + csv;
+        let exportData = encodeURI(csv);
+
+        link = document.createElement('a');
+        link.setAttribute('href', exportData);
+        link.setAttribute('download', "survey-report.csv");
+        link.click();
+
+    }
+</script>
+
 <!-- Main Content -->
 <main class="container">
     <div class="row">
         This is the survey report page.
     </div>
+    <button class="btn btn-success mt-4" onclick="return downloadCSV()">
+        <i class="fas fa-edit"></i> Export to CSV
+    </button>
+    <a href="/my-survey" class="btn btn-warning ml-2 mt-4"><i class="fas fa-undo"></i> Cancel</a>
 </main>
 
 <%- include ../partials/bottom_nav.ejs %>
