@@ -126,6 +126,23 @@
         buildTypeString(3);
     }
 
+    function changeStatus(bool) {
+        if(bool == 1){
+            let input = document.getElementById('displayStatus');
+            input.value = "Survey Status: Active";
+            input.style.borderColor = "#198754";
+            input.style.color = "#198754";
+            document.getElementById('status').value = "ACTIVE";
+        }
+        else{
+            let input = document.getElementById('displayStatus');
+            input.value = "Survey Status: Closed";
+            input.style.borderColor = "#FF0000";
+            input.style.color = "#FF0000";
+            document.getElementById('status').value = "CLOSED";
+        }
+    }
+
     function incrementQuestionCounter(bool) {
         let value = parseInt(document.getElementById('questionCounter').value, 0);
         value = isNaN(value) ? 0 : value;
@@ -163,6 +180,7 @@
     <div class="row">
         <div class="offset-md-3 col-md-6">
             <h1><%= title %></h1>
+            <h6>Created by: <%- survey.creatorName%></h6>
 
             <form method="POST" class="form">
                 <div class="form-group">
@@ -242,6 +260,25 @@
                         value="<%= survey.timesViewed %>"/>
                     </div>
                 </div>
+                <div class="text-center mt-3 mb-3">
+                    <% let status = survey.status.toLowerCase() %> 
+                    <% let color; %> 
+                    <% if(survey.status == "CREATED") { %>
+                        <button class="btn btn-success" type="button" onclick="changeStatus(1)">
+                            <i class="fas fa-tick"></i> Make Survey Active
+                        </button>
+                        <% color = "border-radius:5px; border-color: blue; border-width: 2px; color: blue;" %>
+                    <% } else if(survey.status == "ACTIVE") { %>
+                        <button class="btn btn-danger"  type="button" onclick="changeStatus(0)">
+                            <i class="fas fa-trash"></i> Close Survey
+                        </button>
+                        <% color = "border-radius:5px; border-color: green; border-width: 2px; color: green;" %>
+                    <% } else { %>
+                        <% color = "border-radius:5px; border-color: red; border-width: 2px; color: red;" %>
+                    <% } %>
+                    <input type="text" style="padding:5.9px; padding-top: 3px; <%= color%>"
+                     disabled value="Survey Status: <%- status %>" id="displayStatus" name="displayStatus" placeholder="Status">
+                </div>
 
                 <div class="mt-2">
                     <button type="button" class="btn btn-secondary" onclick="return addYesNoQuestion()">
@@ -250,8 +287,9 @@
         
                     <a type="button" class="btn btn-secondary"  onclick="return addShortQuestion()">
                         <i class="fas fa-plus"></i> Add Short Question </a>
+                        
                 </div>
-                
+
                 <div style="padding-bottom: 100px;" class="mt-2">
                     <button class="btn btn-primary">
                         <i class="fas fa-edit"></i> Submit
@@ -266,7 +304,7 @@
                 <div id="hiddenValues" >
                     <input type="hidden" class="form-control" value=<%- qArray.length %> 
                     id="questionCounter" name="questionCounter" placeholder="Questions Counter">
-                    <input type="hidden" class="form-control" value="ACTIVE"
+                    <input type="text" class="form-control" value=<%- status %> 
                     id="status" name="questionStatus" placeholder="Status">
                     <input type="hidden" class="form-control" value=""
                     id="questionType" name="questionType" placeholder="Status">
