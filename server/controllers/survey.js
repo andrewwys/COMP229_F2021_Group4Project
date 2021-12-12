@@ -41,7 +41,9 @@ module.exports.processAddPage = (req, res, next) => {
         "editedDate": utcDate,
         "timesViewed": 1,
         "status": req.body.questionStatus,
-        "questions": questionArray
+        "questions": questionArray,
+        "creatorName": req.user.displayName,
+        "creatorId": req.user._id
     });
 
 
@@ -113,7 +115,9 @@ module.exports.processEditPage = (req, res, next) => {
         "editedDate": utcDate,
         "timesViewed": req.body.timesViewed,
         "status": req.body.questionStatus,
-        "questions": questionArray
+        "questions": questionArray,
+        "creatorName": req.user.displayName,
+        "creatorId": req.user._id
     });
 
      Survey.updateOne({_id: id}, updatedSurvey, (err) => {

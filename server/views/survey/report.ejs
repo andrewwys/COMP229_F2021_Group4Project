@@ -98,10 +98,12 @@
                             <td class="col-4">100%</td>
                         </tr>
                     <% } else { %>
-                        <% for (var d = 0; d < survey.questions[c].responseText.length; d++) { %>
-                            <tr class="d-flex">
-                                <td class="col-12"><%= survey.questions[c].responseText[d] %></td>
-                            </tr>
+                        <% if (survey.questions[c].responseText ?? null) { %>
+                            <% for (var d = 0; d < survey.questions[c].responseText.length; d++) { %>
+                                <tr class="d-flex">
+                                    <td class="col-12"><%= survey.questions[c].responseText[d] %></td>
+                                </tr>
+                            <% } %>
                         <% } %>
                     <% } %>
                 </table>
@@ -109,20 +111,14 @@
         <% } %>
     </div>
 
-    <div class="my-2">
-        <a href="" class="btn btn-primary">
-            <i class="fas fa-file-export"></i> Export</a>
-
-        <a href="/my-survey" class="btn btn-warning">
-            <i class="fas fa-undo"></i> Cancel</a>
-    </div>
-    <div class="my-5">
-
-    </div>
     <button class="btn btn-success mt-4" onclick="return downloadCSV()">
         <i class="fas fa-edit"></i> Export to CSV
     </button>
-    <a href="/my-survey" class="btn btn-warning ml-2 mt-4"><i class="fas fa-undo"></i> Cancel</a>
+    <a href="/my-survey" class="btn btn-warning ml-2 mt-4">
+        <i class="fas fa-undo"></i> Cancel</a>
+    
+    <div class="my-5">&nbsp;</div>
+    <div class="my-5">&nbsp;</div>
 </main>
 
 <%- include ../partials/bottom_nav.ejs %>
