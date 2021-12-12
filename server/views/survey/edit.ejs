@@ -116,14 +116,19 @@
     }
 
     function deleteDiv(question) {
-        let questionCount = parseInt(document.getElementById('questionCounter').value, 0);
-        let counter = questionCount
         let parentDiv = document.getElementById("questions");
         let questionsDiv = document.getElementById(question);
+        if (document.getElementById(question + 1)){
+            alert("Please remove the previous question first");
+        }
+        else{
+        let questionCount = parseInt(document.getElementById('questionCounter').value, 0);
+        let counter = questionCount;
         questionsDiv.remove();
         counter--;
         incrementQuestionCounter(0);
         buildTypeString(3);
+        }
     }
 
     function changeStatus(bool) {
