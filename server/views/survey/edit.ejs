@@ -214,7 +214,7 @@
                 <div class="form-group" id="questions">
                     <% let qArray = survey.questions %> 
                     <% let disabled; %> 
-                    <% if (survey.status == "ACTIVE") { disabled = "disabled"} else { disabled = ""} %> 
+                    <% if (survey.status == "ACTIVE") { disabled = "readonly"} else { disabled = ""} %> 
                     <% for (let i = 0; i < qArray.length; i++) { %>
                         <input type="hidden" class="form-control" value="<%- qArray[i].questionTitle %>" 
                             id="questionsTitle" name="qTitle<%-i%>" placeholder="Questions array">
