@@ -5,8 +5,6 @@ let mongoose = require('mongoose');
 // create a reference to the model
 let Survey = require('../models/survey');
 
-let downloadCSV = require('../reports/downloadCSV')
-
 module.exports.displayAddPage = (req, res, next) => {
     res.render('survey/add', {title: 'Add Survey'})          
 }
