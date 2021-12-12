@@ -7,7 +7,7 @@
         <div class="offset-md-3 col-md-8"></div>
         <h1 class="mb-4"><%= title %> </h1>
 
-        <form class="form" method="POST">
+        <form name="form1" class="form" method="POST">
             <div class="form-group">
                 <label for="usernameTextField" class="mb-1">Username:</label>
                 <input 
@@ -21,31 +21,7 @@
                     readonly>
             </div>
 
-            <div class="form-group">
-                <label for="npasswordTextField" class="mb-1">New Password:</label>
-                <input 
-                    type="password" 
-                    class="form-control mb-3"
-                    id="npasswordTextField"
-                    placeholder="Enter New Password"
-                    value="" 
-                    name="newpassword" 
-                    
-                    required>
-            </div>
-
-            <div class="form-group">
-                <label for="cpasswordTextField" class="mb-1">Confirm Password:</label>
-                <input 
-                    type="password" 
-                    class="form-control mb-3"
-                    id="cpasswordTextField"
-                    placeholder="Enter Password again"
-                    value="" 
-                    name="confirmPass" 
-                    
-                    required>
-            </div>
+            
             <div class="form-group">
                 <label for="emailTextField" class="mb-1">Email:</label>
                 <input 
@@ -56,7 +32,7 @@
                     name="email" 
                     value="<%- user.email %>"
                     required
-                    readonly>
+                    >
             </div>
 
             <div class="form-group">
@@ -70,9 +46,14 @@
                     value="<%- user.displayName %>"
                     required>
             </div>
-            <% if (("confirmPass").value== ("newpassword").value){ %> 
+
+
+            
+            
             <button class="btn btn-warning mt-3" type="submit">Edit</button>
-           <%}%> 
+           
+
+
             <a href="/home" class="btn btn-secondary mt-3">Cancel</a>
             
             

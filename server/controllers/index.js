@@ -187,7 +187,6 @@ module.exports.processEditUserPage = (req, res, next) => {
     let updatedUser = User({
         "_id": id,
         "username": req.body.userName,
-        "password": req.body.confirmPass,
         "email": req.body.email,
         "displayName": req.body.displayName,
     });
