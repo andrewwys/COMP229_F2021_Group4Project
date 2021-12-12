@@ -46,12 +46,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Sirusthevirus/COMP229_F2021_Group4Project.git"
+    "url": "git+https://github.com/andrewwys/COMP229_F2021_Group4Project.git"
   },
   "author": "Ashley Turnbull",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Sirusthevirus/COMP229_F2021_Group4Project/issues"
+    "url": "https://github.com/andrewwys/COMP229_F2021_Group4Project/issues"
   },
-  "homepage": "https://github.com/Sirusthevirus/COMP229_F2021_Group4Project#readme"
+  "homepage": "https://github.com/andrewwys/COMP229_F2021_Group4Project#readme"
 }
