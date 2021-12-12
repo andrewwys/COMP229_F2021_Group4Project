@@ -34,10 +34,10 @@ router.get('/register', indexController.displayRegisterPage);
 router.post('/register', indexController.processRegisterPage);
 
 /* GET Route for displaying the Edit Page */
-router.get('/editprofile/:id', requireAuth, indexController.displayEditUserPage);
+router.get('/editprofile', requireAuth, indexController.displayEditUserPage);
 
 /* POST Post for processing the Edit Page*/
-router.post('/editprofile/:id', requireAuth, indexController.processEditUserPage);
+router.post('/editprofile', requireAuth, indexController.processEditUserPage);
 
 /* GET to perform logout */
 router.get('/logout', indexController.performLogout);

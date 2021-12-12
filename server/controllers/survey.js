@@ -6,7 +6,10 @@ let mongoose = require('mongoose');
 let Survey = require('../models/survey');
 
 module.exports.displayAddPage = (req, res, next) => {
-    res.render('survey/add', {title: 'Add Survey'})          
+    res.render('survey/add', {
+        title: 'Add Survey',
+        displayName: req.user ? req.user.displayName : ''
+    })          
 }
 
 module.exports.processAddPage = (req, res, next) => {
