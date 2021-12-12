@@ -307,14 +307,11 @@
         
                     <a href="/" class="btn btn-warning">
                         <i class="fas fa-undo"></i> Cancel</a>
-    
-                    <a href="/delete/<%= survey._id %>" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i> Delete</a>
                 </div>
                 <div id="hiddenValues" >
                     <input type="hidden" class="form-control" value=<%- qArray.length %> 
                     id="questionCounter" name="questionCounter" placeholder="Questions Counter">
-                    <input type="text" class="form-control" value=<%- status %> 
+                    <input type="hidden" class="form-control" value=<%- status %> 
                     id="status" name="questionStatus" placeholder="Status">
                     <input type="hidden" class="form-control" value=""
                     id="questionType" name="questionType" placeholder="Status">
