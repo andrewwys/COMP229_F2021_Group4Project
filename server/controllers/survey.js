@@ -159,7 +159,7 @@ module.exports.displayReportPage = (req, res, next) => {
         {
             //show the survey form view
             res.render('survey/report', {
-                title: 'Report', 
+                title: 'Survey Report', 
                 displayName: req.user ? req.user.displayName : '',
                 survey: surveyToFill
             });      

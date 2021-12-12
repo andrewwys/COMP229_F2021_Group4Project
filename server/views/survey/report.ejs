@@ -4,7 +4,64 @@
 <!-- Main Content -->
 <main class="container">
     <div class="row">
-        This is the survey report page.
+        <h1>Survey Report - <%= survey.title %></h1>
+        Creator: <%= survey.creatorName %>
+    </div>
+    <div class="row">
+        Description: <%= survey.description %>
+    </div>
+    <div class="row">
+        <% for (var c = 0; c < survey.questions.length; c++) { %>
+            Question <%= c + 1 %>: <%= survey.questions[c].questionTitle %>
+
+            <div class="mt-2">
+                <table class="table table-bordered table-striped table-hover">
+                    <tr class="d-flex">
+                        <% if (survey.questions[c].type == "YN") { %>
+                            <th class="col-4">Responses</th>
+                            <th class="text-center col-4">Count</th>
+                            <th class="text-center col-4">Percentage</th>
+                        <% } else { %>
+                            <th class="col-12">Responses</th>
+                        <% } %>
+                    </tr>
+                    <% if (survey.questions[c].type == "YN") { %>
+                        <tr class="d-flex">
+                            <td class="col-4">Yes</td>
+                            <td class="col-4"><%= survey.questions[c].responseY %></td>
+                            <td class="col-4"><%= Math.round(survey.questions[c].responseY / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">No</td>
+                            <td class="col-4"><%= survey.questions[c].responseN %></td>
+                            <td class="col-4"><%=  Math.round(survey.questions[c].responseN / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">Total</td>
+                            <td class="col-4"><%= survey.questions[c].responseY + survey.questions[c].responseN %></td>
+                            <td class="col-4">100%</td>
+                        </tr>
+                    <% } else { %>
+                        <% for (var d = 0; d < survey.questions[c].responseText.length; d++) { %>
+                            <tr class="d-flex">
+                                <td class="col-12"><%= survey.questions[c].responseText[d] %></td>
+                            </tr>
+                        <% } %>
+                    <% } %>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="my-2">
+        <a href="" class="btn btn-primary">
+            <i class="fas fa-file-export"></i> Export</a>
+
+        <a href="/my-survey" class="btn btn-warning">
+            <i class="fas fa-undo"></i> Cancel</a>
+    </div>
+    <div class="my-5">
+
     </div>
 </main>
 
