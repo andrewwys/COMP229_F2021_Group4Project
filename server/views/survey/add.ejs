@@ -148,7 +148,7 @@
                 let oldValue = value.split(",")
                 value = oldValue.slice(0, oldValue.length - 2).join(",") + ",";
                 if(value == ","){
-                    value = " ";
+                    value = "";
                 }
             }
         document.getElementById('questionType').value = value;
@@ -220,7 +220,7 @@
                 <a href="/" class="btn btn-warning">
                     <i class="fas fa-undo"></i> Cancel</a>
             </div>
-            <div style="display: block;" id="hiddenValues" >
+            <div style="display: none;" id="hiddenValues" >
                 <input type="text" class="form-control" value=0
                 id="questionsCounter" name="questionCounter" placeholder="Questions Counter">
                 <input type="text" class="form-control" value="CREATED"
