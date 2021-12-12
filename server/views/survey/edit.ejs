@@ -3,13 +3,15 @@
 
 <!--C Content for the Edit Page-->
 <script type="text/javascript">
-    var counter = 1
-    let questionCount = counter;
-    let questionArray = [];
 
+    let Test = "";
     function addYesNoQuestion() {
         let questionsDiv = document.getElementById("questions");
+        let questionCount = parseInt(document.getElementById('questionCounter').value, 0);
+        let counter = questionCount + 1;
 
+
+        //Create Div
         let div = document.createElement('div');
         div.id = counter;
 
@@ -20,11 +22,19 @@
         input.name = "question" + counter;
         input.className = "form-control";
 
+        let inputType = document.createElement("input");
+        inputType.id = "type" + counter
+        inputType.type = "hidden";
+        inputType.name = "type" + counter;
+        inputType.value = "YN";
+
         //Create Label
         let label = document.createElement("Label");
         label.setAttribute("for", "Question" + counter);
         label.setAttribute("questionType", "yesno");
         label.innerHTML = "Question" + counter + "\n";
+        label.setAttribute("questiontype", "YN" + counter)
+
 
         //Create Line Break
         let br1 = document.createElement("br");
@@ -43,6 +53,7 @@
         div.appendChild(label);
         div.appendChild(br1);
         div.appendChild(input);
+        div.appendChild(inputType);
         div.appendChild(deleteButton);
         div.appendChild(br2);
         questionsDiv.appendChild(div);
@@ -53,21 +64,19 @@
 
     function addShortQuestion() {
         let questionsDiv = document.getElementById("questions");
+        let questionCount = parseInt(document.getElementById('questionCounter').value, 0);
+        let counter = questionCount + 1;
+
         //Create Div
         let div = document.createElement('div');
-        div.id = counter
+        div.id = counter;
 
         //Create Label
         let labelQuestion = document.createElement("Label");
         labelQuestion.setAttribute("for", "Question" + counter);
         labelQuestion.innerHTML = "Question " + counter;
         labelQuestion.name = "question" + counter;
-
-        let labelAnswer = document.createElement("Label");
-        labelAnswer.setAttribute("for", "Question " + counter);
-        labelAnswer.setAttribute("questionType", "short");
-        labelAnswer.innerHTML = "Answer for question " + counter;
-        labelAnswer.name = "question" + counter;
+        labelQuestion.setAttribute("questiontype", "short" + counter);
 
         let br1 = document.createElement("br");
 
@@ -77,6 +86,12 @@
         inputQuestion.type = "text";
         inputQuestion.className = "form-control";
         inputQuestion.name = "question" + counter;
+
+        let inputType = document.createElement("input");
+        inputType.id = "type" + counter
+        inputType.type = "hidden";
+        inputType.name = "type" + counter;
+        inputType.value = "short"
 
         //create delete button
         let deleteButton = document.createElement('button')
@@ -91,6 +106,7 @@
         div.appendChild(labelQuestion);
         div.appendChild(br1);
         div.appendChild(inputQuestion);
+        div.appendChild(inputType);
         div.appendChild(deleteButton);
         div.appendChild(br1);
         questionsDiv.appendChild(div);
@@ -100,6 +116,8 @@
     }
 
     function deleteDiv(question) {
+        let questionCount = parseInt(document.getElementById('questionCounter').value, 0);
+        let counter = questionCount
         let parentDiv = document.getElementById("questions");
         let questionsDiv = document.getElementById(question);
         questionsDiv.remove();
@@ -109,7 +127,7 @@
     }
 
     function incrementQuestionCounter(bool) {
-        let value = parseInt(document.getElementById('questionsCounter').value, 10);
+        let value = parseInt(document.getElementById('questionCounter').value, 0);
         value = isNaN(value) ? 0 : value;
         if(bool == 1){
             value++;
@@ -117,7 +135,7 @@
         else{
             value--;
         }
-        document.getElementById('questionsCounter').value = value;
+        document.getElementById('questionCounter').value = value;
     }
 
     function buildTypeString(bool) {
@@ -173,15 +191,28 @@
                 <div class="form-group" id="questions">
                     <% let qArray = survey.questions %> 
                     <% for (let i = 0; i < qArray.length; i++) { %>
-                        <div class="mt-4">Question <%- i+1 %>: </div>
                         <input type="hidden" class="form-control" value="<%- qArray[i].questionTitle %>" 
                             id="questionsTitle" name="qTitle<%-i%>" placeholder="Questions array">
-                        <div class="mx-4">
+                        <div class="mx-4" id="<%= i + 1 %>" style="padding-bottom: 60px;">
                             <% if (qArray[i].type == "YN") { %>  
-                                <input type="text" class="form-control" id="question<%= i %>" name="question<%= i %>" 
-                                value="<%- qArray[i].questionTitle %>" required>
+                                    <div class="form-group" style="padding-top: 20px;">
+                                    <label for="question<%= i + 1 %>">Question<%= i + 1 %></label>
+                                    <input type="text" class="form-control" id="question<%= i + 1 %>" name="question<%= i + 1 %>" 
+                                    value="<%- qArray[i].questionTitle %>" required>
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].type %>" 
+                                    id="questionType" name="type<%= i + 1%>" placeholder="Type array">
+                                    <a style="float: right;" onclick="deleteDiv(<%= i + 1 %>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </div>
                             <% } else { %>
-                                <input type="text" class="form-control" id="textInput" name="responseText<%= i %>" size="40" required>
+                                <% console.log(qArray[i].type) %>  
+                                <div class="form-group" style="padding-top: 10px;">
+                                    <label for="question<%= i + 1%>">Question<%= i + 1 %></label>
+                                    <input type="text" class="form-control" id="textInput" name="question<%= i + 1 %>" value="<%- qArray[i].questionTitle %>"
+                                     size="40" required>
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].type %>" 
+                                    id="questionType" name="type<%= i + 1%>" placeholder="Type array">
+                                    <a style="float: right;" onclick="deleteDiv(<%= i + 1%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                                </div>
                             <% } %>
                         </div>
                     <% } %>
@@ -233,11 +264,11 @@
                         <i class="fas fa-trash-alt"></i> Delete</a>
                 </div>
                 <div id="hiddenValues" >
-                    <input type="text" class="form-control" value=0
-                    id="questionsCounter" name="questionCounter" placeholder="Questions Counter">
-                    <input type="text" class="form-control" value="Created"
-                    id="status" placeholder="Status">
-                    <input type="text" class="form-control" value=""
+                    <input type="hidden" class="form-control" value=<%- qArray.length %> 
+                    id="questionCounter" name="questionCounter" placeholder="Questions Counter">
+                    <input type="hidden" class="form-control" value="ACTIVE"
+                    id="status" name="questionStatus" placeholder="Status">
+                    <input type="hidden" class="form-control" value=""
                     id="questionType" name="questionType" placeholder="Status">
                 </div>
             </form>
