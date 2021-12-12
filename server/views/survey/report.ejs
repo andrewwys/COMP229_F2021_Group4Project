@@ -1,7 +1,77 @@
 <%- include ../partials/header.ejs %>
 <%- include ../partials/main_nav.ejs %>
 
+<!-- Main Content -->
+<main class="container">
+    <div class="row">
+        <h1>Survey Report - <%= survey.title %></h1>
+        Creator: <%= survey.creatorName %>
+    </div>
+    <div class="row">
+        Description: <%= survey.description %>
+    </div>
+    <div class="row mt-2">
+        <% for (var c = 0; c < survey.questions.length; c++) { %>
+            Question <%= c + 1 %>: <%= survey.questions[c].questionTitle %>
+
+            <div class="mt-2">
+                <table class="table table-bordered table-striped table-hover" id="question-response-<%- c %>">
+                    <tr class="d-flex">
+                        <% if (survey.questions[c].type == "YN") { %>
+                            <th class="col-4">Responses</th>
+                            <th class="text-center col-4">Count</th>
+                            <th class="text-center col-4">Percentage</th>
+                        <% } else { %>
+                            <th class="col-12">Responses</th>
+                        <% } %>
+                    </tr>
+                    <% if (survey.questions[c].type == "YN") { %>
+                        <tr class="d-flex">
+                            <td class="col-4">Yes</td>
+                            <td class="col-4"><%= survey.questions[c].responseY %></td>
+                            <td class="col-4"><%= Math.round(survey.questions[c].responseY / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">No</td>
+                            <td class="col-4"><%= survey.questions[c].responseN %></td>
+                            <td class="col-4"><%=  Math.round(survey.questions[c].responseN / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <td class="col-4">Total</td>
+                            <td class="col-4"><%= survey.questions[c].responseY + survey.questions[c].responseN %></td>
+                            <td class="col-4">100%</td>
+                        </tr>
+                    <% } else { %>
+                        <% if (survey.questions[c].responseText ?? null) { %>
+                            <% for (let d = 0; d < survey.questions[c].responseText.length; d++) { %>
+                                <tr class="d-flex">
+                                    <td class="col-12"><%= survey.questions[c].responseText[d] %></td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    <% } %>
+                </table>
+            </div>
+        <% } %>
+    </div>
+
+    <button class="btn btn-success mt-4" onclick="downloadCSV()">
+        <i class="fas fa-edit"></i> Export to CSV
+    </button>
+    <a href="/my-survey" class="btn btn-warning ml-2 mt-4">
+        <i class="fas fa-undo"></i> Cancel</a>
+    
+    <div class="my-5">&nbsp;</div>
+    <div class="my-5">&nbsp;</div>
+</main>
+
+<%- include ../partials/bottom_nav.ejs %>
+
 <script type="text/javascript">
+
+    function addResponseRow (id) {
+
+    }
 
     function convertToCSV (questionList) {
         let result = '';
@@ -39,10 +109,8 @@
     }
 
     function downloadCSV() {
-
-        let testData = {"_id":{"$oid":"61b0fe1ba2add91264bd973e"},"title":"Andrew Use Only","name":"Andrew Use Only","description":"HHHIII","createdDate":{"$date":"2021-12-06T05:00:00.000Z"},"editedDate":{"$date":"2021-12-08T05:00:00.000Z"},"timesViewed":1,"status":"ACTIVE","questions":[{"questionTitle":"How are you?","type":"YN","responseY":5,"responseN":4,"responseText":[""]},{"questionTitle":"Tell me about yourself","type":"SHORT","responseY":0,"responseN":0,"responseText":["I am fine.","I am 15 years old.","I am a student","s1","alshflkdsflkaj"]}],"creatorId":"6190332f0c78d5e3fcbac953","creatorName":"Andrew"};
-        let questions = testData.questions;
-
+        //  let testData = {"_id":{"$oid":"61b0fe1ba2add91264bd973e"},"title":"Andrew Use Only","name":"Andrew Use Only","description":"HHHIII","createdDate":{"$date":"2021-12-06T05:00:00.000Z"},"editedDate":{"$date":"2021-12-08T05:00:00.000Z"},"timesViewed":1,"status":"ACTIVE","questions":[{"questionTitle":"How are you?","type":"YN","responseY":5,"responseN":4,"responseText":[""]},{"questionTitle":"Tell me about yourself","type":"SHORT","responseY":0,"responseN":0,"responseText":["I am fine.","I am 15 years old.","I am a student","s1","alshflkdsflkaj"]}],"creatorId":"6190332f0c78d5e3fcbac953","creatorName":"Andrew"};
+        let questions = <%- JSON.stringify(survey.questions)%>;
         let csv = convertToCSV(questions);
         if (csv == null) return;
 
@@ -57,69 +125,5 @@
     }
 </script>
 
-<!-- Main Content -->
-<main class="container">
-    <div class="row">
-        <h1>Survey Report - <%= survey.title %></h1>
-        Creator: <%= survey.creatorName %>
-    </div>
-    <div class="row">
-        Description: <%= survey.description %>
-    </div>
-    <div class="row">
-        <% for (var c = 0; c < survey.questions.length; c++) { %>
-            Question <%= c + 1 %>: <%= survey.questions[c].questionTitle %>
 
-            <div class="mt-2">
-                <table class="table table-bordered table-striped table-hover">
-                    <tr class="d-flex">
-                        <% if (survey.questions[c].type == "YN") { %>
-                            <th class="col-4">Responses</th>
-                            <th class="text-center col-4">Count</th>
-                            <th class="text-center col-4">Percentage</th>
-                        <% } else { %>
-                            <th class="col-12">Responses</th>
-                        <% } %>
-                    </tr>
-                    <% if (survey.questions[c].type == "YN") { %>
-                        <tr class="d-flex">
-                            <td class="col-4">Yes</td>
-                            <td class="col-4"><%= survey.questions[c].responseY %></td>
-                            <td class="col-4"><%= Math.round(survey.questions[c].responseY / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-4">No</td>
-                            <td class="col-4"><%= survey.questions[c].responseN %></td>
-                            <td class="col-4"><%=  Math.round(survey.questions[c].responseN / (survey.questions[c].responseY + survey.questions[c].responseN) * 100) %>%</td>
-                        </tr>
-                        <tr class="d-flex">
-                            <td class="col-4">Total</td>
-                            <td class="col-4"><%= survey.questions[c].responseY + survey.questions[c].responseN %></td>
-                            <td class="col-4">100%</td>
-                        </tr>
-                    <% } else { %>
-                        <% if (survey.questions[c].responseText ?? null) { %>
-                            <% for (var d = 0; d < survey.questions[c].responseText.length; d++) { %>
-                                <tr class="d-flex">
-                                    <td class="col-12"><%= survey.questions[c].responseText[d] %></td>
-                                </tr>
-                            <% } %>
-                        <% } %>
-                    <% } %>
-                </table>
-            </div>
-        <% } %>
-    </div>
-
-    <button class="btn btn-success mt-4" onclick="return downloadCSV()">
-        <i class="fas fa-edit"></i> Export to CSV
-    </button>
-    <a href="/my-survey" class="btn btn-warning ml-2 mt-4">
-        <i class="fas fa-undo"></i> Cancel</a>
-    
-    <div class="my-5">&nbsp;</div>
-    <div class="my-5">&nbsp;</div>
-</main>
-
-<%- include ../partials/bottom_nav.ejs %>
 <%- include ../partials/footer.ejs %>
