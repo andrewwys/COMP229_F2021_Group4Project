@@ -1,12 +1,12 @@
 {
   "name": "comp229-f2021-groupproject",
   "version": "0.0.1",
-  "private": false,
+  "private": true,
   "scripts": {
     "start": "node ./server.js"
   },
   "engines": {
-    "node": "^14.17.5",
+    "node": "^12.18.3",
     "npm": "^6.0.0"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "http-errors": "~1.6.3",
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.0",
+    "mongoose": "^6.1.1",
     "morgan": "~1.9.1",
     "nodemon": "^2.0.15",
     "passport": "^0.5.0",
@@ -41,17 +41,16 @@
     "@types/passport": "^1.0.7",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-local": "^1.0.34",
-    "@types/passport-local-mongoose": "^6.1.0",
-    "cors": "^2.8.5"
+    "@types/passport-local-mongoose": "^6.1.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andrewwys/COMP229_F2021_Group4Project.git"
+    "url": "git+https://github.com/Sirusthevirus/COMP229_F2021_Group4Project.git"
   },
   "author": "Ashley Turnbull",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/andrewwys/COMP229_F2021_Group4Project/issues"
+    "url": "https://github.com/Sirusthevirus/COMP229_F2021_Group4Project/issues"
   },
-  "homepage": "https://github.com/andrewwys/COMP229_F2021_Group4Project#readme"
+  "homepage": "https://github.com/Sirusthevirus/COMP229_F2021_Group4Project#readme"
 }
