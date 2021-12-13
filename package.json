@@ -1,9 +1,9 @@
 {
   "name": "comp229-f2021-groupproject",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./server.js"
   },
   "engines": {
     "node": "^14.17.5",
