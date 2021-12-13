@@ -28,6 +28,21 @@
         inputType.name = "type" + counter;
         inputType.value = "YN";
 
+        let inputResponseN = document.createElement("input");
+        inputResponseN.id = "responseN" + counter
+        inputResponseN.type = "hidden";
+        inputResponseN.name = "responseN" + counter;
+
+        let inputResponseY = document.createElement("input");
+        inputResponseY.id = "responseY" + counter
+        inputResponseY.type = "hidden";
+        inputResponseY.name = "responseY" + counter;
+
+        let inputResponseText = document.createElement("input");
+        inputResponseText.id = "responseText" + counter
+        inputResponseText.type = "hidden";
+        inputResponseText.name = "responseText" + counter;
+
         //Create Label
         let label = document.createElement("Label");
         label.setAttribute("for", "Question" + counter);
@@ -54,6 +69,9 @@
         div.appendChild(br1);
         div.appendChild(input);
         div.appendChild(inputType);
+        div.appendChild(inputResponseN);
+        div.appendChild(inputResponseY);
+        div.appendChild(inputResponseText);
         div.appendChild(deleteButton);
         div.appendChild(br2);
         questionsDiv.appendChild(div);
@@ -88,10 +106,25 @@
         inputQuestion.name = "question" + counter;
 
         let inputType = document.createElement("input");
-        inputType.id = "type" + counter
+        inputType.id = "type" + counter;
         inputType.type = "hidden";
         inputType.name = "type" + counter;
-        inputType.value = "SHORT"
+        inputType.value = "SHORT";
+
+        let inputResponseN = document.createElement("input");
+        inputResponseN.id = "responseN" + counter;
+        inputResponseN.type = "hidden";
+        inputResponseN.name = "responseN" + counter;
+
+        let inputResponseY = document.createElement("input");
+        inputResponseY.id = "responseY" + counter;
+        inputResponseY.type = "hidden";
+        inputResponseY.name = "responseY" + counter;
+
+        let inputResponseText = document.createElement("input");
+        inputResponseText.id = "responseText" + counter;
+        inputResponseText.type = "hidden";
+        inputResponseText.name = "responseText" + counter;
 
         //create delete button
         let deleteButton = document.createElement('button')
@@ -107,6 +140,9 @@
         div.appendChild(br1);
         div.appendChild(inputQuestion);
         div.appendChild(inputType);
+        div.appendChild(inputResponseN);
+        div.appendChild(inputResponseY);
+        div.appendChild(inputResponseText);
         div.appendChild(deleteButton);
         div.appendChild(br1);
         questionsDiv.appendChild(div);
@@ -160,25 +196,6 @@
         document.getElementById('questionCounter').value = value;
     }
 
-    function buildTypeString(bool) {
-        let value = document.getElementById('questionType').value;
-        switch(bool) {
-            case 0:
-                value = value + "YN,";
-                break;
-            case 1:
-                value = value + "SHORT,";
-                break;
-            default:
-                let oldValue = value.split(",")
-                value = oldValue.slice(0, oldValue.length - 2).join(",") + ",";
-                if(value == ","){
-                    value = "";
-                }
-            }
-        document.getElementById('questionType').value = value;
-    }
-
  </script>
 
 <div class="container">
@@ -226,6 +243,12 @@
                                     value="<%- qArray[i].questionTitle %>" required <%- disabled %>>
                                     <input type="hidden" class="form-control" value="<%- qArray[i].type %>" 
                                     id="questionType" name="type<%= i + 1%>" placeholder="Type array">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseN %>" 
+                                    id="responseN" name="responseN<%= i + 1%>" placeholder="Response N">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseY %>" 
+                                    id="responseY" name="responseY<%= i + 1%>" placeholder="Response Y">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseText %>" 
+                                    id="responseText" name="responseText<%= i + 1%>" placeholder="Response Text">
                                     <% if (survey.status == "CREATED") { %>
                                     <a style="float: right;" onclick="deleteDiv(<%= i + 1 %>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                     <% } %>
@@ -237,6 +260,12 @@
                                      size="40" required <%- disabled %>>
                                     <input type="hidden" class="form-control" value="<%- qArray[i].type %>" 
                                     id="questionType" name="type<%= i + 1%>" placeholder="Type array">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseN %>" 
+                                    id="responseN" name="responseN<%= i + 1%>" placeholder="Response N">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseY %>" 
+                                    id="responseY" name="responseY<%= i + 1%>" placeholder="Response Y">
+                                    <input type="hidden" class="form-control" value="<%- qArray[i].responseText %>" 
+                                    id="responseText" name="responseText<%= i + 1%>" placeholder="Response Text">
                                     <% if (survey.status == "CREATED") { %>
                                         <a style="float: right;" onclick="deleteDiv(<%= i + 1%>)" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
                                     <% } %>
@@ -302,10 +331,10 @@
 
                 <div style="padding-bottom: 100px;" class="mt-2">
                     <button class="btn btn-primary">
-                        <i class="fas fa-edit"></i> Submit
+                        <i class="fas fa-edit"></i> Save
                     </button>
         
-                    <a href="/" class="btn btn-warning">
+                    <a href="/my-survey" class="btn btn-warning">
                         <i class="fas fa-undo"></i> Cancel</a>
                 </div>
                 <div id="hiddenValues" >
